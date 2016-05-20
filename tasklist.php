@@ -215,28 +215,43 @@ $reponse = $bdd->query('SELECT * FROM tache');
         
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Diagramme De Pert</h1>
+                <h1 class="page-header">Task List</h1>
             </div>
         </div><!--/.row-->
 
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-random"></span> Pert</div>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-tasks"></span> Tasks</div>
                     <div class="panel-body">
-    <?php
-        // On affiche chaque entrée une à une
-    while ($donnees = $reponse->fetch())
-{
-    ?>
-    <p>
-    <strong>Tâche</strong> : <?php echo $donnees['nom']; ?>.<br/>
-    Sa durée est : <?php echo $donnees['duree']; ?> Jours/Homme.<br>
-    Précédent(s) : <?php echo $donnees['precedent1']; ?>,<?php echo $donnees['precedent2']; ?>.<br/>
-    Suivant(s) : <?php echo $donnees['suivant1']; ?>, <?php echo $donnees['suivant2'];echo'<hr>';} ?><br/>
-   </p>
-
-                    </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Durée</th>
+                                <th>Précédent 1</th>
+                                <th>Précédent 2</th>                                
+                                <th>Suivant 1</th>
+                                <th>Suivant 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <?php
+                                            // On affiche chaque entrée une à une
+                                        while ($donnees = $reponse->fetch())
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $donnees['nom'];?></td>
+                                            <td><?php echo $donnees['duree'];?></td>
+                                            <td><?php echo $donnees['precedent1'];?></td>
+                                            <td><?php echo $donnees['precedent2'];?></td>
+                                            <td><?php echo $donnees['suivant1'];?></td>
+                                            <td><?php echo $donnees['suivant2'];}?></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
                 </div>
             </div>
         </div><!--/.row-->

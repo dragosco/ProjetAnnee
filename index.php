@@ -61,7 +61,7 @@ $reponse = $bdd->query('SELECT * FROM tache');
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Task</button>
             </div>
             <!-- Le paramètrage de la tâche est initialement caché -->
-            <div class="col-md-12" id="taskConfig">
+            <div class="row" id="taskConfig">
                 <div class="row">
                     <div class="col-md-12"><input class="form-control" id="taskInput" type="text" name="taskName" placeholder="Task name" /></div>
                 </div>
@@ -213,10 +213,11 @@ $reponse = $bdd->query('SELECT * FROM tache');
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		
 		<div class="row">
-		<h1 class="page-header">Diagramme De Pert</h1>
-			<section style="width:100%; height:400px; background-color: transparent;">
-			</section>
-		</div><!--/.row-->
+        <h1 class="page-header">Diagramme De Pert</h1>
+            <section style="width:100%; height:400px; background-color: transparent;">
+            </section>
+        </div>
+        <!--/.row-->
 
 <!-- 		<div class="row">
 			<div class="col-lg-12">
