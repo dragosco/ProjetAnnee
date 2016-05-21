@@ -75,6 +75,8 @@ bounds.embed(end);
 //création de la petite flêche noire au bout du lien
 var fleche = {'.connection': { stroke: 'black' }, '.marker-target': { fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z' }};
 //creation du lien
+
+/*
 var linkToEnd = new joint.dia.Link({
     source: { id: start.id},
     target: { id: end.id},
@@ -82,7 +84,7 @@ var linkToEnd = new joint.dia.Link({
     });
 graph.addCell(linkToEnd);
 bounds.embed(linkToEnd);
-
+*/
 /******************
     CREER TACHE
  ******************/
@@ -148,7 +150,7 @@ function getLink(source, target) {
     return null;
 };
 
-//fonction qui renvoie un tableau de String correspondant aux options sélectionnée
+//fonction qui renvoie un tableau de String correspondant aux options sélectionnées
 function lookUpSelectedOptions(selector) {
     var selectedTab = [];
     for (var i = 0; i < selector.length; i++) {

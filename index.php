@@ -255,7 +255,7 @@ $reponse = $bdd->query('SELECT * FROM tache');
     <script src="js/backbone-min.js"></script>
     <script src="js/joint.js"></script>
     <script src="js/createTask.js"></script>
-    <!-- src -->
     <script src="js/addTask.js"></script>
+    <script src="js/show-PERT.js"></script>
 </body>
 </html>
