@@ -1,8 +1,12 @@
 <?php
-require("cnx.php");
+//require("cnx.php");
+require("models/Project.php");
+
+// Tentative d'instanciation de la classe
+$project = Project::getInstance();
 
 // On récupère tout le contenu de la table tâche
-$reponse = $bdd->query('SELECT * FROM tache');
+//$reponse = $bdd->query('SELECT * FROM tache');
 ?>
 
 <html>
@@ -36,7 +40,7 @@ $reponse = $bdd->query('SELECT * FROM tache');
 					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="index.php"><span>Gestion</span>De<span>Projet</span></a>
-				
+
                 <ul class="nav navbar-top-links navbar-right">
                         <a href="login.php" class="navbar-brand">| <span class="glyphicon glyphicon-user"></span> Logout</a>
 				</ul>
@@ -54,7 +58,7 @@ $reponse = $bdd->query('SELECT * FROM tache');
 	</nav>
 	<!--sidebar-->
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		
+
             <div class="col-md-12">
                 <br>
                 <button class="btn btn-default btn-block" type="button" name="submit" id="addTaskButton">
@@ -207,9 +211,9 @@ $reponse = $bdd->query('SELECT * FROM tache');
             </div>
 	</div>
     <!--/.sidebar-->
-		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Gestion De Projet</h1>
@@ -220,8 +224,9 @@ $reponse = $bdd->query('SELECT * FROM tache');
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading"><span class="glyphicon glyphicon-stats"></span> Statistiques</div>
-						
-				
+
+						<h1><?php echo $project->nom;?></h1>
+
 				</div>
 			</div>
 		</div><!--/.row-->
@@ -243,6 +248,6 @@ $reponse = $bdd->query('SELECT * FROM tache');
     <script src="js/createTask.js"></script>
     <!-- src -->
     <script src="js/addTask.js"></script>
-		
+
 </body>
 </html>

@@ -1,8 +1,9 @@
 <?php
-require("cnx.php");
+require("models/Project.php");
 
-// On récupère tout le contenu de la table tâche
-$reponse = $bdd->query('SELECT * FROM tache');
+// Tentative d'instanciation de la classe
+$project = Project::getInstance();
+
 ?>
 
 <html>
@@ -36,7 +37,7 @@ $reponse = $bdd->query('SELECT * FROM tache');
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.php"><span>Gestion</span>De<span>Projet</span></a>
-                
+
                 <ul class="nav navbar-top-links navbar-right">
                         <a href="login.php" class="navbar-brand">| <span class="glyphicon glyphicon-user"></span> Logout</a>
                 </ul>
@@ -55,7 +56,7 @@ $reponse = $bdd->query('SELECT * FROM tache');
 
     <!--sidebar-->
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        
+
             <div class="col-md-12">
                 <br>
                 <button class="btn btn-default btn-block" type="button" name="submit" id="addTaskButton">
@@ -210,9 +211,9 @@ $reponse = $bdd->query('SELECT * FROM tache');
             </div>
     </div>
     <!--/.sidebar-->
-		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">          
-        
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Task List</h1>
@@ -230,24 +231,18 @@ $reponse = $bdd->query('SELECT * FROM tache');
                                 <th>Nom</th>
                                 <th>Durée</th>
                                 <th>Précédent 1</th>
-                                <th>Précédent 2</th>                                
+                                <th>Précédent 2</th>
                                 <th>Suivant 1</th>
                                 <th>Suivant 2</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                    <?php
-                                            // On affiche chaque entrée une à une
-                                        while ($donnees = $reponse->fetch())
-                                    {
+                                  <?php
+                                    // On affiche chaque entrée une à une
+																		foreach ($project->getListeTaches() as $task) {
                                         ?>
                                         <tr>
-                                            <td><?php echo $donnees['nom'];?></td>
-                                            <td><?php echo $donnees['duree'];?></td>
-                                            <td><?php echo $donnees['precedent1'];?></td>
-                                            <td><?php echo $donnees['precedent2'];?></td>
-                                            <td><?php echo $donnees['suivant1'];?></td>
-                                            <td><?php echo $donnees['suivant2'];}?></td>
+                                            <td><?php echo $task->nom;}?></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -273,6 +268,6 @@ $reponse = $bdd->query('SELECT * FROM tache');
     <script src="js/createTask.js"></script>
     <!-- src -->
     <script src="js/addTask.js"></script>
-		
+
 </body>
 </html>
