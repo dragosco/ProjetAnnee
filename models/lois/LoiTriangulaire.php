@@ -1,18 +1,18 @@
 <?php
 /*
- * Loi Triangulaire 
- * 
+ * Loi Triangulaire
+ *
  */
 
 Class LoiTriangulaire extends LoiProbabilite
 {
-	var $c ; 
+	var $c ;
 	function __construct($valeurmin , $valeurmax , $c)
 	{
 		$this->valeurMax = $valeurmax ;
 		$this->valeurMin = $valeurmin ;
 		$this->c = $c ;
-	
+
 	}
 
 	function generate()
@@ -27,7 +27,5 @@ Class LoiTriangulaire extends LoiProbabilite
 			return $this->valeurMax - sqrt( ( $this->valeurMax - $this->valeurMin ) * ( $this->valeurMax - $this->c ) * $q );
 
 	}
-
-	
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 /*
  * LoiProbabilite
- * 
+ *
  * Classe mere de toutes les lois
  */
 class LoiProbabilite
@@ -14,6 +14,7 @@ class LoiProbabilite
 		$this->valeurMax = $valeurMax ;
 		$this->valeurMin = $valeurMin ;
 	}
+	
 	function uniform($min, $max)
 	{
 		if($min>=0 && $max>$min)
@@ -32,6 +33,18 @@ class LoiProbabilite
 		$resul = $resul / 1000 ;
 		return $resul ;
 	}
+
+	public function __get($property) {
+    if (property_exists($this, $property)) {
+        return $this->$property;
+    }
+  }
+
+  public function __set($property, $value) {
+    if (property_exists($this, $property)) {
+        $this->$property = $value;
+    }
+  }
 
 }
 ?>

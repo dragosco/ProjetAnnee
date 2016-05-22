@@ -1,12 +1,12 @@
 <?php
-require("cnx.php");
-
+require("models/cnx.php");
+$bdd = getBdd();
 $reponse = $bdd->query('SELECT * FROM tache');
 
 $data = array();
 while ($donnees = $reponse->fetch()) {
     array_push($data, array('nom' => $donnees['nom'],
-                            'duree' => $donnees['duree'],
+                            /*'duree' => $donnees['duree'],*/
                             'precedent1' => $donnees['precedent1'],
                             'precedent2' => $donnees['precedent2'],
                             'suivant1' => $donnees['suivant1'],

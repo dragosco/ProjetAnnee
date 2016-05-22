@@ -10,14 +10,13 @@ Class LoiNormaleTronquee extends LoiNormale
 	{
 		parent::__construct($valeurmin , $valeurmax , $mu, $sigma);
 	}
-	
+
 	function generate()
 	{
 		do {
 			$value = parent::generate();
 		} while (( $value > $this->valeurMax) OR ( $value < $this->valeurMin));
-		
+
 		return $value;
 	}
-
 }
