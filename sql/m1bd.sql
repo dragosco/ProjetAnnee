@@ -106,23 +106,28 @@ CREATE TABLE IF NOT EXISTS `loiNormale` (
 
 ALTER TABLE tache
 ADD FOREIGN KEY fk_projet(idProjet)
-REFERENCES projet(id);
+REFERENCES projet(id)
+ON DELETE CASCADE;
 
 ALTER TABLE loi
 ADD FOREIGN KEY fk_tache(idTache)
-REFERENCES tache(id);
+REFERENCES tache(id)
+ON DELETE CASCADE;
 
 ALTER TABLE loiBeta
 ADD FOREIGN KEY fk_loiBeta(id)
-REFERENCES loi(id);
+REFERENCES loi(id)
+ON DELETE CASCADE;
 
 ALTER TABLE loiTriangulaire
 ADD FOREIGN KEY fk_loiTriangulaire(id)
-REFERENCES loi(id);
+REFERENCES loi(id)
+ON DELETE CASCADE;
 
 ALTER TABLE loiNormale
 ADD FOREIGN KEY fk_loiNormale(id)
-REFERENCES loi(id);
+REFERENCES loi(id)
+ON DELETE CASCADE;
 
 INSERT INTO `projet` (`id`, `nomp`, `description`) VALUES
 (1, 'projet', 'description');

@@ -34,8 +34,9 @@ class Task
 	// 	$this->loi = $loi;
 	// }
 
-	function __construct($nom/*, $duree*/, $projet) // , $loi, $predecesseurs, $successeurs
+	function __construct($id, $nom/*, $duree*/, $projet) // , $loi, $predecesseurs, $successeurs
 	{
+		$this->id = $id;
 		$this->nom = $nom;
 		//$this->duree = $duree;
 		$this->projet = $projet;

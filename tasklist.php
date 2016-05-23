@@ -1,5 +1,6 @@
 <?php
 require("models/Project.php");
+//require("delete2.php");
 
 // Tentative d'instanciation de la classe
 $project = Project::getInstance();
@@ -54,6 +55,7 @@ $project = Project::getInstance();
                         <table class="table">
                             <thead>
                             	<tr>
+																<th>Action</th>
                                 <th>Nom</th>
                                 <th>Précédent 1</th>
                                 <th>Précédent 2</th>
@@ -67,7 +69,17 @@ $project = Project::getInstance();
 															foreach ($project->listeTaches as $task) {
 	                            ?>
 	                            <tr>
-	                                <td><?php echo $task->nom;}?></td>
+																<td>
+                                  <a href="update.php?id=<?php echo $task->id;?>">
+                                  <span class="glyphicon glyphicon-edit" aria-hidden="true" >
+
+                                  </span>
+                                  <a href="delete.php?id=<?php echo $task->id;?>">
+                                  <span class="glyphicon glyphicon-trash" aria-hidden="true">
+                                  </span>
+                                  <a>
+                                </td>
+	                              <td><?php echo $task->nom;}?></td>
 	                            </tr>
                             </tbody>
                       </table>

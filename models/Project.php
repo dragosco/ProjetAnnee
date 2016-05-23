@@ -19,8 +19,9 @@ class Project
 
 	private static $_instance = null;
 
-	function __construct($nom, $tacheDebut, $tacheFin, $simulationMC)
+	function __construct($id, $nom, $tacheDebut, $tacheFin, $simulationMC)
 	{
+		$this->id = $id;
 		$this->nom = $nom;
 		$this->tacheDebut = $tacheDebut;
 		$this->tacheFin = $tacheFin;
@@ -43,7 +44,7 @@ class Project
 
 		while ($donnees = $reponse->fetch())
 		{
-			$tache = new Task($donnees['nom']/*, $donnees['duree']*/, $this); //, null, null
+			$tache = new Task($donnees['id'], $donnees['nom']/*, $donnees['duree']*/, $this); //, null, null
 			// if($tache->duree == 0) {
 			$tache->loadLoi();
 			// }
@@ -54,7 +55,7 @@ class Project
 	public static function getInstance() {
 
 		if(is_null(self::$_instance)) {
-			self::$_instance = new Project('Gna', null, null, null);
+			self::$_instance = new Project(1, 'Gna', null, null, null);
 		}
 
 		return self::$_instance;

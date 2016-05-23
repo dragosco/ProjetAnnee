@@ -73,7 +73,7 @@ $project = Project::getInstance();
 							$proba = 70;
 							echo "resultat ChargeGivenProbability " . $simulation->estimateChargeGivenProbability($proba);
 							echo("<br>");
-							$charge = 180;
+							$charge = 90;
 							echo "resultat ProbabilityGivenCharge " . $simulation->estimateProbabilityGivenCharge($charge);
 						?>
 				</div>
