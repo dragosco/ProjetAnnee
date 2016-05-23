@@ -7,7 +7,7 @@ $(document).ready(function() {
             data.forEach(function (item) {
                 var task = item.nom;
                 var taskRect = rect.clone();
-                    taskRect.attr('text/text', task); 
+                    taskRect.attr('text/text', task);
                 graph.addCell(taskRect);
                 addTaskToMenu(task);
             });
@@ -43,7 +43,7 @@ $(document).ready(function() {
                     bounds.embed(linkRight);
                 }
 
-                
+
             });
 
             reorganizeGraphPositions();

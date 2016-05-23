@@ -44,7 +44,7 @@ class Project
 
 		while ($donnees = $reponse->fetch())
 		{
-			$tache = new Task($donnees['id'], $donnees['nom']/*, $donnees['duree']*/, $this); //, null, null
+			$tache = new Task($donnees['id'], $donnees['nom'], $donnees['precedent1'], $donnees['precedent2'], $donnees['suivant1'], $donnees['suivant2']/*, $donnees['duree']*/, $this); //, null, null
 			// if($tache->duree == 0) {
 			$tache->loadLoi();
 			// }

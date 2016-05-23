@@ -20,6 +20,12 @@ class Task
 	var $nom = "";
 	//var $duree;
 	var $projet;
+
+	var $precedent1;
+	var $precedent2;
+	var $suivant1;
+	var $suivant2;
+
 	var $predecesseurs;
 	var $successeurs;
 	var $loi;
@@ -34,12 +40,17 @@ class Task
 	// 	$this->loi = $loi;
 	// }
 
-	function __construct($id, $nom/*, $duree*/, $projet) // , $loi, $predecesseurs, $successeurs
+	function __construct($id, $nom, $precedent1, $precedent2, $suivant1, $suivant2/*, $duree*/, $projet) // , $loi, $predecesseurs, $successeurs
 	{
 		$this->id = $id;
 		$this->nom = $nom;
 		//$this->duree = $duree;
 		$this->projet = $projet;
+
+		$this->precedent1 = $precedent1;
+		$this->precedent2 = $precedent2;
+		$this->suivant1 = $suivant1;
+		$this->suivant2 = $suivant2;
 		// $this->predecesseurs = $predecesseurs;
 		// $this->successeurs = $successeurs;
 
