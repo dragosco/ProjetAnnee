@@ -24,7 +24,7 @@ var paper = new joint.dia.Paper({
  */
 var bounds = new joint.shapes.basic.Rect({
         size: {width: paper.options.width, height: paper.options.height},
-        attrs: {rect: {style: {'pointer-events': 'none'}, 'stroke-width': 0, fill: 'transparent' }}
+        attrs: {rect: {style: {'pointer-events': 'none'}, 'stroke-width': 0, fill: '#000', 'fill-opacity': 0.5 }}
     });
 graph.addCell(bounds);
 graph.on('change:position', function(cell) {
@@ -56,9 +56,9 @@ function autoResizeBounds() {
 var extreme = new joint.shapes.basic.Circle( {
     size: { width:100, height: 100},
     attrs: {
-        circle: { fill: '#FFFFFF', 'stroke-width': 2, stroke: 'black' },
+        circle: { fill: '#FFFFFF', 'fill-opacity': 0.5,  'stroke-width': 0 },
         text: {
-            fill: '#3498DB','font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
+            fill: '#000','font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
         }
     }
 });
@@ -71,30 +71,26 @@ var end = extreme.clone();
 graph.addCells([start, end]);
 bounds.embed(start);
 bounds.embed(end);
-//LIEN INITIAL entre DEBUT et FIN
-//création de la petite flêche noire au bout du lien
-var fleche = {'.connection': { stroke: 'black' }, '.marker-target': { fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z' }};
-//creation du lien
 
-/*
-var linkToEnd = new joint.dia.Link({
-    source: { id: start.id},
-    target: { id: end.id},
-    attrs: fleche
-    });
-graph.addCell(linkToEnd);
-bounds.embed(linkToEnd);
-*/
-/******************
-    CREER TACHE
- ******************/
+/*************************
+        LIENS
+ *************************/
+//création de la petite flêche noire au bout du lien
+var fleche = {'.connection': { stroke: 'black' }, '.marker-target': { fill: '#000', 'fill-opacity':0.5, d: 'M 10 0 L 0 5 L 10 10 z' }};
+//creation du lien
+var lien = new joint.dia.Link({ attrs: fleche, smooth: true});
+
+
+/*************************
+        TACHES
+ *************************/
 //créer le rectangle correspondant à la tâche
 var rect = new joint.shapes.basic.Rect({
     size: { width: 100, height: 60 },
     attrs: {
-        rect: { fill: '#2C3E50', rx: 5, ry: 5, 'stroke-width': 2, stroke: 'black' },
+        rect: { fill: '#3498DB', 'fill-opacity': 0.5, rx: 5, ry: 5, 'stroke-width': 0 },
         text: {
-            text: 'my label', fill: '#3498DB',
+            text: 'my label', fill: '#000',
             'font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
         }
     }
@@ -103,27 +99,15 @@ bounds.embed(rect);
 
 //fonction qui permet de récupérer une cellule par son texte
 function getCellByText(str) {
-    //var i = 0;
-    //while (i < graph.getCells().length) {
-    //    if (graph.getCells()[i].attr('text/text') === str) {
-    //       return graph.getCells()[i];
-    //    };
-    //    i++;
-    //}
-    //return null;
-    return getCellByTextFromGraph(str, graph);
-};
-
-function getCellByTextFromGraph(str, newGraph) {
     var i = 0;
-    while (i < newGraph.getCells().length) {
-        if (newGraph.getCells()[i].attr('text/text') === str) {
-            return newGraph.getCells()[i];
-        };
-        i++;
+    while (i < graph.getCells().length) {
+       if (graph.getCells()[i].attr('text/text') === str) {
+          return graph.getCells()[i];
+       };
+       i++;
     }
     return null;
-}
+};
 
 //fonction qui permet de récupérer tous les liens d'une même source
 function getLinksFromSource(source) {

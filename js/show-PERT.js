@@ -7,7 +7,7 @@ $(document).ready(function() {
             data.forEach(function (item) {
                 var task = item.nom;
                 var taskRect = rect.clone();
-                    taskRect.attr('text/text', task);
+                    taskRect.attr('text/text', task); 
                 graph.addCell(taskRect);
                 addTaskToMenu(task);
             });
@@ -20,42 +20,30 @@ $(document).ready(function() {
                 var suiv1 = getCellByText(item.suivant1);
                 var suiv2 = getCellByText(item.suivant2);
 
-                var linkLeft1 = new joint.dia.Link({
-                    source: { id: prec1.id},
-                    target: { id: task.id},
-                    attrs: fleche
-                });
+
+                var linkLeft1 = lien.clone();
+                    linkLeft1.set('source', { id: prec1.id });
+                    linkLeft1.set('target', { id: task.id });
                 graph.addCell(linkLeft1);
                 bounds.embed(linkLeft1);
 
                 if (item.precedent2 !== "") {
-                    var linkLeft2 = new joint.dia.Link({
-                        source: { id: prec2.id},
-                        target: { id: task.id},
-                        attrs: fleche
-                    });
+                    var linkLeft2 = lien.clone();
+                        linkLeft2.set('source', { id: prec2.id });
+                        linkLeft2.set('target', { id: task.id });
                     graph.addCell(linkLeft2);
                     bounds.embed(linkLeft2);
                 }
 
-                var linkRight1 = new joint.dia.Link({
-                    source: { id: task.id},
-                    target: { id: suiv1.id},
-                    attrs: fleche
-                });
-                graph.addCell(linkRight1);
-                bounds.embed(linkRight1);
-
-                if (item.suivant2 !== "") {
-                    var linkRight2 = new joint.dia.Link({
-                        source: { id: task.id},
-                        target: { id: suiv2.id},
-                        attrs: fleche
-                    });
-                    graph.addCell(linkRight2);
-                    bounds.embed(linkRight2);
+                if (item.suivant1 === "End" || item.suivant2 === "End") {
+                    var linkRight = lien.clone();
+                        linkRight.set('source', { id: task.id });
+                        linkRight.set('target', { id: end.id });
+                    graph.addCell(linkRight);
+                    bounds.embed(linkRight);
                 }
 
+                
             });
 
             reorganizeGraphPositions();
