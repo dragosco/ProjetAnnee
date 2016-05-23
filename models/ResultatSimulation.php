@@ -45,7 +45,7 @@ class ResultatSimulation {
       }
     }
 
-    return $resultat;
+    return round($resultat, 2);
   }
 
   function estimateChargeGivenProbability($probability, $largeurIntervalle) {

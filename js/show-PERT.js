@@ -44,12 +44,9 @@ $(document).ready(function() {
                     graph.addCell(linkRight);
                     bounds.embed(linkRight);
                 }
-
-
             });
 
             reorganizeGraphPositions();
-
         }
     });
 

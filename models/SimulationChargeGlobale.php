@@ -32,16 +32,9 @@ Class SimulationChargeGlobale extends SimulationMC {
     	$distrib[$index]++;
     }
 
-    // $simulation = [];
-    // for ($i=0; $i < count($distrib); $i++) {
-    //   $j = $i * $nbCat;
-    //   $simulation[$j] = $distrib[$i];
-    // }
-
-    //return $simulation;
     $this->resultatCalcul = new ResultatSimulation($distrib, $this->nbEchantillons, $this->largeurIntervalle);
 
-    return $this->resultatCalcul; // = $distrib;
+    return $this->resultatCalcul;
   }
 
   function estimateProbabilityGivenCharge($charge) {
