@@ -1,9 +1,11 @@
 $(document).ready(function() {
+    $('#waitForDiagram').show();
     $.ajax({
         type: 'GET',
         url: "/ProjetAnnee/tasklist_json.php",
         dataType: 'json',
         success: function (data) {
+            $('#waitForDiagram').hide();
             data.forEach(function (item) {
                 var task = item.nom;
                 var taskRect = rect.clone();
@@ -51,4 +53,21 @@ $(document).ready(function() {
         }
     });
 
+    // $('#saveGraph').click(function() {
+    //
+    //     var jsonGraph = JSON.stringify(graph.toJSON());
+    //
+    //     console.log(jsonGraph);
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/ProjetAnnee/PERT_json.php",
+    //         data: {myData:jsonGraph},
+    //         success: function(data){
+    //             alert('SUCCESS');
+    //         },
+    //         error: function(e){
+    //             console.log("Erreur");
+    //         }
+    //     });
+    // });
 });

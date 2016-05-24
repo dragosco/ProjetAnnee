@@ -92,10 +92,90 @@ class Project
 		//$this->bdd->query('INSERT INTO tache () VALUES ()');
 	}
 
-	public function removeTask()
+	public function removeTask($id)
 	{
-		//remove($this->listeTaches, id);
-		//$this->bdd->query('DELETE FROM tache WHERE id = ');
+
+		$this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $this->bdd->prepare("SELECT * FROM tache WHERE id = ?");
+		$q->execute(array($id));
+		$row = $q->fetch(PDO::FETCH_ASSOC);
+		$nom = $row['nom'];
+		$prec1 = $row['precedent1'];
+		$prec2 = $row['precedent2'];
+		$suiv1 = $row['suivant1'];
+		$suiv2 = $row['suivant2'];
+
+		echo $prec1 . "   " . $prec2 . "   " . $suiv1 . "   " . $suiv2;
+		if ($prec1 !== "" && $prec1 !== "Start") {
+
+			$q1 = $this->bdd->prepare("UPDATE tache SET suivant1 = :suiv1 WHERE nom = :prec1 AND (suivant1 = :nom OR suivant1 = '')");
+			$q1->bindParam(':suiv1', $suiv1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':prec1', $prec1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->execute();
+
+			$q2 = $this->bdd->prepare("UPDATE tache SET suivant2 = :suiv2 WHERE nom = :prec1 AND (suivant2 = :nom OR suivant2 = '')");
+			$q2->bindParam(':suiv2', $suiv2, PDO::PARAM_STR, 50);
+			$q2->bindParam(':prec1', $prec1, PDO::PARAM_STR, 50);
+			$q2->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q2->execute();
+
+			echo 'je suis dans le 1er if';
+		}
+		if ($prec2 !== "" && $prec2 !== "Start") {
+
+			$q1 = $this->bdd->prepare("UPDATE tache SET suivant1 = :suiv1 WHERE nom = :prec2 AND (suivant1 = :nom OR suivant1 = '')");
+			$q1->bindParam(':suiv1', $suiv1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':prec2', $prec2, PDO::PARAM_STR, 50);
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->execute();
+
+			$q2 = $this->bdd->prepare("UPDATE tache SET suivant2 = :suiv2 WHERE nom = :prec2 AND (suivant2 = :nom OR suivant2 = '')");
+			$q2->bindParam(':suiv2', $suiv2, PDO::PARAM_STR, 50);
+			$q2->bindParam(':prec2', $prec2, PDO::PARAM_STR, 50);
+			$q2->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q2->execute();
+
+			echo 'je suis dans le 2e if';
+		}
+		if ($suiv1 !== "" && $suiv1 !== "End") {
+
+			$q1 = $this->bdd->prepare("UPDATE tache SET precedent1 = :prec1 WHERE nom = :suiv1 AND (precedent1 = :nom OR precedent1 = '')");
+			$q1->bindParam(':prec1', $prec1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':suiv1', $suiv1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->execute();
+
+			$q1 = $this->bdd->prepare("UPDATE tache SET precedent2 = :prec2 WHERE nom = :suiv1 AND (precedent2 = :nom OR precedent2 = '')");
+			$q1->bindParam(':prec2', $prec2, PDO::PARAM_STR, 50);
+			$q1->bindParam(':suiv1', $suiv1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->execute();
+
+			echo 'je suis dans le 3e if';
+		}
+		if ($suiv2 !== "" && $suiv2 !== "End") {
+
+			$q1 = $this->bdd->prepare("UPDATE tache SET precedent1 = :prec1 WHERE nom = :suiv2 AND (precedent1 = :nom OR precedent1 = '')");
+			$q1->bindParam(':prec1', $prec1, PDO::PARAM_STR, 50);
+			$q1->bindParam(':suiv2', $suiv2, PDO::PARAM_STR, 50);
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->execute();
+
+			$q1 = $this->bdd->prepare("UPDATE tache SET precedent2 = :prec2 WHERE nom = :suiv2 AND (precedent2 = :nom OR precedent2 = '')");
+			$q1->bindParam(':prec2', $prec2, PDO::PARAM_STR, 50);
+			$q1->bindParam(':suiv2', $suiv2, PDO::PARAM_STR, 50);
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->execute();
+
+			echo 'je suis dans le 4e if';
+		}
+		$sql = "DELETE FROM tache WHERE id = ". $id;
+		$q = $this->bdd->prepare($sql);
+		$q->execute();
+
+		$this->listeTaches = array();
+		$this->loadListeTaches();
 	}
 
 	public function updateTask()

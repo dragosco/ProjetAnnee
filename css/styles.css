@@ -10,6 +10,9 @@ body {
 	color: #fff;
 }
 
+.modal-dialog{
+	background-color: #0d0d0d;
+}
 /*This is the default .row style, stripped of margins*/
 .row {
 	margin: 0;

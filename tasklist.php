@@ -1,6 +1,5 @@
 <?php
 require("models/Project.php");
-//require("delete2.php");
 
 // Tentative d'instanciation de la classe
 $project = Project::getInstance();
@@ -13,18 +12,18 @@ $project = Project::getInstance();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gestion de projet</title>
 
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/datepicker3.css" rel="stylesheet">
-<link href="css/styles.css" rel="stylesheet">
-<link href="css/joint.css" rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/joint.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
 
-<!--[if lt IE 9]>
-<link href="css/rgba-fallback.css" rel="stylesheet">
-<script src="js/html5shiv.js"></script>
-<script src="js/respond.min.js"></script>
-<![endif]-->
-
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <script src="js/backbone-min.js"></script>
+    <script src="js/joint.js"></script>
+    <script src="js/createTask.js"></script>
+    <script src="js/addTask.js"></script>
 </head>
 
 <body>
@@ -55,7 +54,7 @@ $project = Project::getInstance();
                         <table class="table">
                             <thead>
                             	<tr>
-																<th>Action</th>
+								<th></th>
                                 <th>Nom</th>
                                 <th>Précédent 1</th>
                                 <th>Précédent 2</th>
@@ -65,18 +64,52 @@ $project = Project::getInstance();
                             </thead>
                             <tbody>
                             	<?php
-                              // On affiche chaque entrée une à une
-															foreach ($project->listeTaches as $task) {
+                                    // On affiche chaque entrée une à une
+									foreach ($project->listeTaches as $task) {
 	                            ?>
 	                            <tr>
-																<td>
-                                  <a href="update.php?id=<?php echo $task->id;?>">
-                                  <span class="glyphicon glyphicon-edit" aria-hidden="true" >
+								<td>
+                                  <a class="btn btn-link" data-toggle="modal" data-target="#modalTache<?php echo $task->id;?>" >
+                                      <span class="glyphicon glyphicon-edit" aria-hidden="true" >
+                                      </span>
+                                  </a>
+                                    <div class="modal fade" id="modalTache<?php echo $task->id;?>" role="dialog">
+                                        <div class="modal-dialog">
+                                                <div class="modal-body">
+                                                    <form method="post" action="update.php">
+                                                        <div class="form-group">
+                                                            <input type="hidden" name="id" value="<?php echo $task->id;?>" />
+                                                        </div>
 
-                                  </span>
+                                                        <div class="form-group">
+                                                            <label for="nm">Nom</label>
+                                                            <input type="text" class="form-control" id="nm" name="nvnom" value="<?php echo $task->nom; ?>">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="gd">suivant1</label>
+                                                            <input type="text" class="form-control" id="sv1" name="nvsuivant1" value="<?php echo $task->suivant1; ?>">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="gd">suivant2</label>
+                                                            <input type="text" class="form-control" id="sv2" name="nvsuivant2" value="<?php echo $task->suivant2; ?>">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="gd">precedent1</label>
+                                                            <input type="text" class="form-control" id="pr1" name="nvprecedent1" value="<?php echo $task->precedent1; ?>">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="gd">precedent2</label>
+                                                            <input type="text" class="form-control" id="pr2" name="nvprecedent2" value="<?php echo $task->precedent2; ?>">
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-success">Update</button>
+                                                    </form>
+                                                </div>
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
                                   <a href="delete.php?id=<?php echo $task->id;?>">
-                                  <span class="glyphicon glyphicon-trash" aria-hidden="true">
-                                  </span>
+                                      <span class="glyphicon glyphicon-trash" aria-hidden="true">
+                                      </span>
                                   <a>
                                 </td>
 	                              <td><?php echo $task->nom;}?></td>
@@ -88,22 +121,5 @@ $project = Project::getInstance();
             </div>
         </div><!--/.row-->
     </div><!--/.main-->
-
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/chart.min.js"></script>
-	<script src="js/chart-data.js"></script>
-	<script src="js/easypiechart.js"></script>
-	<script src="js/easypiechart-data.js"></script>
-	<script src="js/bootstrap-datepicker.js"></script>
-	<script src="js/custom.js"></script>
-	<script src="js/bootstrap-table.js"></script>
-	<script src="js/jquery.min.js"></script>
-  <script src="js/lodash.min.js"></script>
-  <script src="js/backbone-min.js"></script>
-  <script src="js/joint.js"></script>
-  <script src="js/createTask.js"></script>
-  <script src="js/addTask.js"></script>
-
 </body>
 </html>

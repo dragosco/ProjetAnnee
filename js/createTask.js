@@ -58,7 +58,7 @@ var extreme = new joint.shapes.basic.Circle( {
     attrs: {
         circle: { fill: '#FFFFFF', 'fill-opacity': 0.5,  'stroke-width': 0 },
         text: {
-            fill: '#000','font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
+            fill: '#000', 'fill-opacity':0.7, 'font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
         }
     }
 });
@@ -76,7 +76,7 @@ bounds.embed(end);
         LIENS
  *************************/
 //création de la petite flêche noire au bout du lien
-var fleche = {'.connection': { stroke: 'black' }, '.marker-target': { fill: '#000', 'fill-opacity':0.5, d: 'M 10 0 L 0 5 L 10 10 z' }};
+var fleche = {'.connection': { stroke: '#000', 'stroke-opacity': 0.7 }, '.marker-target': { fill: '#000', 'fill-opacity':0.7, stroke: 0, d: 'M 10 0 L 0 5 L 10 10 z' }};
 //creation du lien
 var lien = new joint.dia.Link({ attrs: fleche, smooth: true});
 
@@ -88,9 +88,9 @@ var lien = new joint.dia.Link({ attrs: fleche, smooth: true});
 var rect = new joint.shapes.basic.Rect({
     size: { width: 100, height: 60 },
     attrs: {
-        rect: { fill: '#3498DB', 'fill-opacity': 0.5, rx: 5, ry: 5, 'stroke-width': 0 },
+        rect: { fill: '#3498DB', 'fill-opacity': 0.5, rx: 5, ry: 5, stroke: 0 },
         text: {
-            text: 'my label', fill: '#000',
+            text: 'my label', fill: '#000', 'fill-opacity':0.7,
             'font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
         }
     }
@@ -143,66 +143,66 @@ function lookUpSelectedOptions(selector) {
     return selectedTab;
 };
 
-function createTask() {
-    //on récupère les listes (gauche et droite) des options sélectionnées
-    var leftTaskList = lookUpSelectedOptions($('#leftTaskSelector')[0]);
-    var rightTaskList = lookUpSelectedOptions($('#rightTaskSelector')[0]);
-
-    //on supprime les liens qui existent entre chaque tâche de la liste gauche avec chaque tâche de la liste droite
-    for (var i = 0; i < leftTaskList.length; i++) {
-        for (var j = 0; j < rightTaskList.length; j++) {
-            var src = getCellByText(leftTaskList[i]);
-            var trg = getCellByText(rightTaskList[j]);
-            var link = getLink(src, trg);
-            if (link != null) {
-                link.remove();
-            }
-        }
-    };
-
-    //on crée la tâche et ses liens
-    var task = $('#taskInput').val();
-    var taskRect = rect.clone();
-        taskRect.attr('text/text', task);
-        // taskRect.set('position', {x: 0, y: 0});
-    graph.addCell(taskRect);
-    leftTaskList.forEach(function (task) {
-        var linkLeft = new joint.dia.Link({
-            source: { id: getCellByText(task).id},
-            target: { id: taskRect.id},
-            attrs: fleche
-        });
-        graph.addCell(linkLeft);
-        bounds.embed(linkLeft);
-    });
-    /*for (var i = 0; i < leftTaskList.length; i++) {
-        var linkLeft = new joint.dia.Link({
-            source: { id: getCellByText(leftTaskList[i]).id},
-            target: { id: taskRect.id},
-            attrs: fleche
-        });
-        graph.addCell(linkLeft);
-        bounds.embed(linkLeft);
-    };*/
-    for (var i = 0; i < rightTaskList.length; i++) {
-        var linkRight = new joint.dia.Link({
-            source: { id: taskRect.id},
-            target: { id: getCellByText(rightTaskList[i]).id},
-            attrs: fleche
-        });
-        graph.addCell(linkRight);
-        bounds.embed(linkRight);
-    };
-
-    //actualiser l'affichage du formulaire et de la liste des tâches
-    addTaskToMenu(task);
-    $('#leftTaskSelector').val(task);
-    $('#rightTaskSelector').val("End");
-    //$('#taskInput').val("");
-
-    $('#taskInput').val("" + reorganizeGraphPositions() + "");
-    $('#taskConfig').slideToggle();
-};
+// function createTask() {
+//     //on récupère les listes (gauche et droite) des options sélectionnées
+//     var leftTaskList = lookUpSelectedOptions($('#leftTaskSelector')[0]);
+//     var rightTaskList = lookUpSelectedOptions($('#rightTaskSelector')[0]);
+//
+//     //on supprime les liens qui existent entre chaque tâche de la liste gauche avec chaque tâche de la liste droite
+//     for (var i = 0; i < leftTaskList.length; i++) {
+//         for (var j = 0; j < rightTaskList.length; j++) {
+//             var src = getCellByText(leftTaskList[i]);
+//             var trg = getCellByText(rightTaskList[j]);
+//             var link = getLink(src, trg);
+//             if (link != null) {
+//                 link.remove();
+//             }
+//         }
+//     };
+//
+//     //on crée la tâche et ses liens
+//     var task = $('#taskInput').val();
+//     var taskRect = rect.clone();
+//         taskRect.attr('text/text', task);
+//         // taskRect.set('position', {x: 0, y: 0});
+//     graph.addCell(taskRect);
+//     leftTaskList.forEach(function (task) {
+//         var linkLeft = new joint.dia.Link({
+//             source: { id: getCellByText(task).id},
+//             target: { id: taskRect.id},
+//             attrs: fleche
+//         });
+//         graph.addCell(linkLeft);
+//         bounds.embed(linkLeft);
+//     });
+//     /*for (var i = 0; i < leftTaskList.length; i++) {
+//         var linkLeft = new joint.dia.Link({
+//             source: { id: getCellByText(leftTaskList[i]).id},
+//             target: { id: taskRect.id},
+//             attrs: fleche
+//         });
+//         graph.addCell(linkLeft);
+//         bounds.embed(linkLeft);
+//     };*/
+//     for (var i = 0; i < rightTaskList.length; i++) {
+//         var linkRight = new joint.dia.Link({
+//             source: { id: taskRect.id},
+//             target: { id: getCellByText(rightTaskList[i]).id},
+//             attrs: fleche
+//         });
+//         graph.addCell(linkRight);
+//         bounds.embed(linkRight);
+//     };
+//
+//     //actualiser l'affichage du formulaire et de la liste des tâches
+//     addTaskToMenu(task);
+//     $('#leftTaskSelector').val(task);
+//     $('#rightTaskSelector').val("End");
+//     //$('#taskInput').val("");
+//
+//     $('#taskInput').val("" + reorganizeGraphPositions() + "");
+//     $('#taskConfig').slideToggle();
+// };
 
 function createLink() {
     var left = getCellByText($('#sourceSelector').val());
