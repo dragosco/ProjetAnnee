@@ -46,11 +46,6 @@ $project = Project::getInstance();
 			require 'navbar.php';
 		?>
 		<!--/navbar-->
-		<!--sidebar-->
-		<?php
-			require 'sidebar.php';
-		?>
-		<!--/.sidebar-->
 
 		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		  <div class="row">
@@ -76,26 +71,24 @@ $project = Project::getInstance();
 		            </div>
 		        	</div>
 							<div class="row">
-								<div class="col-md-4"><input class="form-control" id="charge" type="text" name="charge" placeholder="Charge" /></div>
+								<div class="col-md-4"><input class="form-control" id="chargeGivenCharge" type="text" name="chargeGivenCharge" placeholder="Charge d'entrée" /></div>
 		            <div class="col-md-4">
 		              <!-- <form methode ="POST" action ="traitement.php"> -->
-										<button class="btn btn-primary btn-block" type="submit" onclick="estimateProbabilityGivenCharge(iteration.value, intervale.value, charge.value)">
+										<button class="btn btn-primary btn-block" type="submit" onclick="estimateProbabilityGivenCharge(iteration.value, intervale.value, chargeGivenCharge.value)">
 											ok
 										</button>
 									<!-- </form> -->
 		            </div>
-								<div class="col-md-4"><input class="form-control" id="probabilite" type="text" name="probabilite" placeholder="Probabilité" /></div>
+								<div class="col-md-4"><output class="form-control" id="probabiliteGivenCharge" type="text" name="probabiliteGivenCharge" placeholder="Probabilité calculée" /></div>
 		        	</div>
 							<div class="row">
-								<div class="col-md-4"><input class="form-control" id="probabiliteGivenProbability" type="text" name="probabiliteGivenProbability" placeholder="Probabilité" /></div>
+								<div class="col-md-4"><input class="form-control" id="probabiliteGivenProbability" type="text" name="probabiliteGivenProbability" placeholder="Probabilité d'entrée" /></div>
 		            <div class="col-md-4">
-		              <!-- <form methode ="POST" action ="traitement.php"> -->
-										<button class="btn btn-primary btn-block" type="submit" onclick="estimateChargeGivenProbability(iteration.value, intervale.value, probabiliteGivenProbability.value)">
-											ok
-										</button>
-									<!-- </form> -->
+									<button class="btn btn-primary btn-block" type="submit" onclick="estimateChargeGivenProbability(iteration.value, intervale.value, probabiliteGivenProbability.value)">
+										ok
+									</button>
 		            </div>
-								<div class="col-md-4"><input class="form-control" id="chargeGivenProbability" type="text" name="chargeGivenProbability" placeholder="Charge" /></div>
+								<div class="col-md-4"><output class="form-control" id="chargeGivenProbability" type="text" name="chargeGivenProbability" placeholder="Charge calculée" /></div>
 		        	</div>
 		          <br><br> <div id="container" style="height: 400px; width: 100%;"></div>
 					 	</div>

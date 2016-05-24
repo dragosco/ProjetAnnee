@@ -32,11 +32,6 @@ $project = Project::getInstance();
 		require 'navbar.php';
 	?>
   <!--/navbar-->
-  <!--sidebar-->
-	<?php
-		require 'sidebar.php';
-	?>
-	<!--/.sidebar-->
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
@@ -48,8 +43,7 @@ $project = Project::getInstance();
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-tasks"></span>Tasks</div>
+                <div class="panel panel-default"><div class="panel-heading"><a class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-plus"></span> Add Tasks</a></div>
                     	<div class="panel-body">
                         <table class="table">
                             <thead>
@@ -112,14 +106,162 @@ $project = Project::getInstance();
                                       </span>
                                   <a>
                                 </td>
-	                              <td><?php echo $task->nom;}?></td>
+	                              <td><?php echo $task->nom;?></td>
+	                              <td><?php echo $task->precedent1;?></td>
+	                              <td><?php echo $task->precedent2;?></td>
+	                              <td><?php echo $task->suivant1;?></td>
+	                              <td><?php echo $task->suivant2;}?></td>
 	                            </tr>
                             </tbody>
                       </table>
                     </div>
+										<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+										<br><br><br><br><br><br>
+										<div class="modal-dialog">
+										<div class="modal-header">
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        <h4 class="modal-title">Add Task</h4>
+										      </div>
+										            <!-- Le paramètrage de la tâche est initialement caché -->
+										            <form methode="Post" action="add.php">
+										            <div class="row" >
+										                <br>
+										                <div class="row">
+										                    <div class="col-md-12"><input class="form-control" id="taskInput" type="text" name="taskName" placeholder="Task name" /></div>
+										                </div>
+										                <br>
+										                <div class="row">
+										                    <div class="col-md-6 ">
+										                        <fieldset class="form-group">
+										                            <label class="formLabel" for="leftTaskSelector">Follows</label>
+										                            <select class="form-control" id="leftTaskSelector" data-toggle="tooltip" data-placement="right" title="Choose the task(s) it follows <br/> [Ctrl + Select] for multiple choices"multiple>
+										                                <option>Start</option>
+										                            </select>
+										                        </fieldset>
+										                    </div>
+										                    <div class="col-md-6">
+										                        <fieldset class="form-group">
+										                            <label class="formLabel" for="rightTaskSelector">Precedes</label>
+										                            <select class="form-control" id="rightTaskSelector" data-toggle="tooltip" data-placement="right" title="Choose the task(s) it precedes <br/> [Ctrl + Select] for multiple choices" multiple>
+										                                <option>End</option>
+										                            </select>
+										                        </fieldset>
+										                    </div>
+										                </div>
+										                <br>
+										                <div class="col-md-12">
+										                <div class="row">
+										                    <label class="formLabel" for="probaLawBtnGroup">Probability Law</label>
+										                </div>
+										                </div>
+										                <div class="col-md-12 btn-group btn-group-justified" data-toggle="buttons" id="probaLawBtnGroup">
+										                        <div class="btn-group">
+										                            <button type="button" class="btn btn-default btn-law" value="1">υ</button>
+										                        </div>
+										                        <div class="btn-group">
+										                            <button type="button" class="btn btn-default btn-law" value="2">β</button>
+										                        </div>
+										                        <div class="btn-group">
+										                            <button type="button" class="btn btn-default btn-law" value="3">Λ</button>
+										                        </div>
+										                        <div class="btn-group">
+										                            <button type="button" class="btn btn-default btn-law" value="4">σ</button>
+										                        </div>
+										                        <div class="btn-group">
+										                            <button type="button" class="btn btn-default btn-law" value="5">[σ]</button>
+										                        </div>
+										                </div>
+
+										                <div class="law col-md-12" id="blk-1">
+										                    <p><b>loi uniforme</b></p>
+										                    <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Min">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Max">
+										                     </div>
+										                </div>
+										                <div class="law col-md-12" id="blk-2">
+										                    <p><b>loi beta</b></p>
+										                    <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Min">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Max">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="V">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="W">
+										                     </div>
+										                </div>
+										                <div class="law col-md-12" id="blk-3">
+										                    <p><b>loi triangulaire</b></p>
+										                <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Min">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Max">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="C">
+										                     </div>
+										                 </div>
+										                <div class="law col-md-12" id="blk-4">
+										                    <p><b>loi normale</b></p>
+										                    <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Min">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Max">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Mu">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Sigma">
+										                     </div>
+										                </div>
+										                <div class="law col-md-12" id="blk-5">
+										                    <p><b>loi normale tronquée</b></p>
+										                    <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Min">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Max">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Mu">
+										                     </div>
+										                     <div class="form-group">
+										                <input type="text" class="form-control" placeholder="Sigma">
+										                     </div>
+										                </div>
+										                <div class="col-md-12">
+
+										<div class="modal-footer">
+										        <input type="submit" class="btn btn-success" id="createTaskButton" type="submit" name="submit"></button>
+										        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+										      </div>
+										                <br>
+										            </div>
+										            </div>
+										        </form>
+
+										    </div>
+										</div>
+
+										<!--End Modal-->
+
+
                 </div>
             </div>
         </div><!--/.row-->
     </div><!--/.main-->
+<<<<<<< 87aa7bf42f6daefe83ce18cc6df0c1e83e2f044e
+=======
+
+>>>>>>> stats avancé
 </body>
 </html>

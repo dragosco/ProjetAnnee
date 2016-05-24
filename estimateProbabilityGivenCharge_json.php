@@ -4,9 +4,9 @@ require("models/Project.php");
 
 $project = Project::getInstance();
 
-$iteration = $_GET['iteration'];
-$intervale = $_GET['intervale'];
-$charge = $_GET['charge'];
+$iteration = $_POST['iteration'];
+$intervale = $_POST['intervale'];
+$charge = $_POST['charge'];
 
 $simulation = new SimulationChargeGlobale($iteration, $intervale, $project);
 $probabilite = $simulation->estimateProbabilityGivenCharge($charge);
