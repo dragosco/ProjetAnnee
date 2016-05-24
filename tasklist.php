@@ -259,9 +259,5 @@ $project = Project::getInstance();
             </div>
         </div><!--/.row-->
     </div><!--/.main-->
-<<<<<<< 87aa7bf42f6daefe83ce18cc6df0c1e83e2f044e
-=======
-
->>>>>>> stats avancé
 </body>
 </html>

@@ -39,11 +39,10 @@ $project = Project::getInstance();
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 
 		<div class="row">
-      		<h1 class="page-header">Diagramme De Pert</h1>
-			<button type="button" id="saveGraph">Save graph position</button>
+      <h1 class="page-header">Diagramme De Pert</h1>
 			<p id="waitForDiagram" class="saving">Loading Diagram <span>.</span><span>.</span><span>.</span></p>
-          	<section style="width:100%; height:600px; background-color: transparent;"></section>
-    	</div>
+      <section style="width:100%; height:600px; background-color: transparent;"></section>
+    </div>
     <!--/.row-->
 	</div><!--/.main-->
 
