@@ -27,6 +27,8 @@ DROP TABLE IF EXISTS loiTriangulaire;
 DROP TABLE IF EXISTS loiNormale;
 DROP TABLE IF EXISTS loi;
 DROP TABLE IF EXISTS tache;
+DROP TABLE IF EXISTS ressource;
+DROP TABLE IF EXISTS simulateur;
 DROP TABLE IF EXISTS projet;
 DROP TABLE IF EXISTS membre;
 
@@ -54,6 +56,23 @@ CREATE TABLE IF NOT EXISTS `projet` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `simulateur` (
+  `idProjet` int(10) NOT NULL,
+  `typeSimulateur` varchar(50) NOT NULL,
+  `nbEchantillons` int(10) NOT NULL,
+  `largeurIntervalle` int(10) NOT NULL,
+  `probabilite` int(10) NULL,
+  `charge` int(10) NULL,
+  PRIMARY KEY (`idProjet`, `typeSimulateur`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ;
+
+CREATE TABLE IF NOT EXISTS `ressource` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) NOT NULL,
+  `cout` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `projet` (
 CREATE TABLE IF NOT EXISTS `tache` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `idProjet` int(10) NOT NULL,
+  `idRessource` int(10) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `suivant1` varchar(50) NOT NULL,
   `suivant2` varchar(50) NOT NULL,
@@ -105,7 +125,16 @@ CREATE TABLE IF NOT EXISTS `loiNormale` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 ALTER TABLE tache
-ADD FOREIGN KEY fk_projet(idProjet)
+ADD FOREIGN KEY fk_projet_tache(idProjet)
+REFERENCES projet(id)
+ON DELETE CASCADE;
+
+ALTER TABLE tache
+ADD FOREIGN KEY fk_ressource_tache(idRessource)
+REFERENCES ressource(id);
+
+ALTER TABLE simulateur
+ADD FOREIGN KEY fk_projet_simulateur(idProjet)
 REFERENCES projet(id)
 ON DELETE CASCADE;
 
@@ -136,12 +165,22 @@ INSERT INTO `projet` (`id`, `nomp`, `description`) VALUES
 -- Contenu de la table `tache`
 --
 
-INSERT INTO `tache` (`id`, `idProjet`, `nom`, `suivant1`, `suivant2`, `precedent1`, `precedent2`) VALUES
-(1, 1, 'conception', 'dev front', 'dev back', 'Start', ''),
-(2, 1, 'dev front', 'dev final', '', 'conception', ''),
-(3, 1, 'dev back', 'dev final', '', 'conception', ''),
-(4, 1, 'dev final', 'End', '', 'dev back', 'dev front'),
-(5, 1, 'final', 'End', '', 'dev back', 'dev front');
+INSERT INTO `simulateur` (`idProjet`, `typeSimulateur`, `nbEchantillons`, `largeurIntervalle`, `probabilite`, `charge`) VALUES
+(1, 'chargeGlobale', 10000, 30, 170, 80);
+
+INSERT INTO `ressource` (`nom`, `cout`) VALUES
+('Ressource 1', 100),
+('Ressource 2', 80),
+('Ressource 3', 120),
+('Ressource 4', 110),
+('Ressource 5', 90);
+
+INSERT INTO `tache` (`id`, `idProjet`, `idRessource`, `nom`, `suivant1`, `suivant2`, `precedent1`, `precedent2`) VALUES
+(1, 1, 1, 'conception', 'dev front', 'dev back', 'Start', ''),
+(2, 1, 2, 'dev front', 'dev final', '', 'conception', ''),
+(3, 1, 3, 'dev back', 'dev final', '', 'conception', ''),
+(4, 1, 4, 'dev final', 'End', '', 'dev back', 'dev front'),
+(5, 1, 5, 'final', 'End', '', 'dev back', 'dev front');
 
 INSERT INTO `loi` (`id`, `nom`, `idTache`, `valeurMin`, `valeurMax`) VALUES
 (1, 'beta', 1, 0, 60),

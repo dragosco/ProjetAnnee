@@ -1,14 +1,17 @@
 <?php
-require("models/SimulationChargeGlobale.php");
+//require("models/SimulationChargeGlobale.php");
 require("models/Project.php");
 
 $project = Project::getInstance();
 
+$typeSimulateur = $_POST['typeSimulateur'];
 $iteration = $_POST['iteration'];
-$intervale = $_POST['intervale'];
+$intervalle = $_POST['intervalle'];
 
-$simulation = new SimulationChargeGlobale($iteration, $intervale, $project);
-$res = $simulation->calculate();
+$res = $project->executeSimulation($typeSimulateur, $iteration, $intervalle);
+
+// $simulation = new SimulationChargeGlobale($iteration, $intervalle, $project);
+// $res = $simulation->calculate();
 $xAxis = $res->xAxis;
 $yAxis = $res->yAxis;
 

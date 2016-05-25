@@ -2,7 +2,7 @@
 require("SimulationMC.php");
 // require("Project.php");
 
-Class SimulationChargeGlobale extends SimulationMC {
+Class SimulationCoutGlobal extends SimulationMC {
   function calculate()
   {
 		$max = 0;

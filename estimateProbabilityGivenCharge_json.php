@@ -1,15 +1,17 @@
 <?php
-require("models/SimulationChargeGlobale.php");
+// require("models/SimulationChargeGlobale.php");
 require("models/Project.php");
 
 $project = Project::getInstance();
 
+$typeSimulateur = $_POST['typeSimulateur'];
 $iteration = $_POST['iteration'];
-$intervale = $_POST['intervale'];
+$intervalle = $_POST['intervalle'];
 $charge = $_POST['charge'];
 
-$simulation = new SimulationChargeGlobale($iteration, $intervale, $project);
-$probabilite = $simulation->estimateProbabilityGivenCharge($charge);
+$probabilite = $project->estimateProbability($typeSimulateur, $iteration, $intervalle, $charge);
+// $simulation = new SimulationChargeGlobale($typeSimulateur, $iteration, $intervalle, $project);
+// $probabilite = $simulation->estimateProbabilityGivenCharge($charge);
 
 $data = [];
 $data['probabilite'] = $probabilite;
