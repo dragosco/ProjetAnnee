@@ -10,6 +10,7 @@ class Ressource
 	var $id;
 	var $nom;
   var $cout;
+  var $nomPresentation;
 	// var $bdd;
 
 	function __construct($id, $nom, $cout)
@@ -22,7 +23,11 @@ class Ressource
 
 	public function __get($property) {
     if (property_exists($this, $property)) {
+      // if($property == 'nomPresentation') {
+      //   return $this->nom . ' (' . $this->cout . ')';
+      // } else {
         return $this->$property;
+      // }
     }
   }
 

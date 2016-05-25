@@ -1,10 +1,32 @@
-// $(document).ready(function() {
-//   $('#iteration').val('10000');
-//   $('#intervalle').val('30');
+$(document).ready(function() {
+  $('#titreChargeGlobale').on('click', function(event) {
+    $('#contenuChargeGlobale').toggle(); //'show'
+    // $('#contenuCoutGlobal').toggle();
+  });
+  $('#titreCoutGlobal').on('click', function(event) {
+    $('#contenuCoutGlobal').toggle(); //'show'
+    // $('#contenuChargeGlobale').toggle();
+  });
+});
+
+$('')
+
+// jQuery(document).ready(function(){
+//     jQuery('#hideshow').live('click', function(event) {
+//          jQuery('#content').toggle('show');
+//     });
 // });
 
-function calculate(typeSimulateur, iteration, intervalle) {
-  var parametres = {typeSimulateur: typeSimulateur, iteration: iteration, intervalle: intervalle};
+function calculate(typeSimulateur, iteration, intervalle, probabilite, charge, divId) {
+  var parametres = {typeSimulateur: typeSimulateur, iteration: iteration, intervalle: intervalle,
+     probabilite: probabilite, charge: charge};
+
+  var nomChart = '';
+  if(typeSimulateur=='chargeGlobale') {
+    nomChart = 'Simulation de charge globale';
+  } else if(typeSimulateur=='coutGlobal') {
+    nomChart = 'Simulation de coût global';
+  }
 
   $.ajax({
       type: 'POST',
@@ -21,12 +43,12 @@ function calculate(typeSimulateur, iteration, intervalle) {
         xAxis = data.xAxis;
         yAxis = data.yAxis;
 
-        $('#container').highcharts({
+        $('#'+divId).highcharts({
           chart: {
             type: 'line'
           },
           title: {
-              text: 'Simulation Monte Carlo'
+            text: nomChart
           },
           subtitle: {
               text: null
@@ -56,8 +78,17 @@ function calculate(typeSimulateur, iteration, intervalle) {
   });
 };
 
-function estimateProbabilityGivenCharge(typeSimulateur, iteration, intervalle, charge) {
-  var parametres = {typeSimulateur: typeSimulateur, iteration: iteration, intervalle: intervalle, charge: charge};
+function estimateProbability(typeSimulateur, iteration, intervalle, probabilite, charge) {
+  var parametres = {typeSimulateur: typeSimulateur, iteration: iteration, intervalle: intervalle,
+     probabilite: probabilite, charge: charge};
+
+  var outputId = 'probabiliteGivenCharge';
+  if(typeSimulateur=='chargeGlobale') {
+    outputId += '_Charge';
+  } else if(typeSimulateur=='coutGlobal') {
+    outputId += '_Cout';
+  }
+
   $.ajax({
     type: 'POST',
     url: "/ProjetAnnee/estimateProbabilityGivenCharge_json.php", //?iteration="+iteration+"&intervale="+intervale+"&charge="+charge,
@@ -65,13 +96,21 @@ function estimateProbabilityGivenCharge(typeSimulateur, iteration, intervalle, c
     data: parametres,
     success: function (data) {
       probabilite = data.probabilite;
-      $('#probabiliteGivenCharge').val(probabilite);
+      $('#'+outputId).val(probabilite);
     }
   });
 };
 
-function estimateChargeGivenProbability(typeSimulateur, iteration, intervalle, probabilite) {
-  var parametres = {typeSimulateur: typeSimulateur, iteration: iteration, intervalle: intervalle, probabilite: probabilite};
+function estimateCharge(typeSimulateur, iteration, intervalle, probabilite, charge) {
+  var parametres = {typeSimulateur: typeSimulateur, iteration: iteration, intervalle: intervalle,
+     probabilite: probabilite, charge: charge};
+
+  var outputId = 'chargeGivenProbability';
+  if(typeSimulateur=='chargeGlobale') {
+    outputId += '_Charge';
+  } else if(typeSimulateur=='coutGlobal') {
+    outputId += '_Cout';
+  }
 
   $.ajax({
     type: 'POST',
@@ -80,7 +119,7 @@ function estimateChargeGivenProbability(typeSimulateur, iteration, intervalle, p
     data: parametres,
     success: function (data) {
       charge = data.charge;
-      $('#chargeGivenProbability').val(charge);
+      $('#'+outputId).val(charge);
     }
   });
 };

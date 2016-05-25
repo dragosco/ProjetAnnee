@@ -58,6 +58,7 @@ $project = Project::getInstance();
                                 <th>Précédent 2</th>
                                 <th>Suivant 1</th>
                                 <th>Suivant 2</th>
+                                <th>Ressource associée</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -115,7 +116,8 @@ $project = Project::getInstance();
 	                              <td><?php echo $task->precedent1;?></td>
 	                              <td><?php echo $task->precedent2;?></td>
 	                              <td><?php echo $task->suivant1;?></td>
-	                              <td><?php echo $task->suivant2;}?></td>
+	                              <td><?php echo $task->suivant2;?></td>
+	                              <td><?php echo $task->ressource->nom . ' (cj : ' . $task->ressource->cout . '€)';}?></td>
 	                            </tr>
                             </tbody>
                       </table>

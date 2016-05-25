@@ -224,7 +224,7 @@ function reorganizeGraphPositions() {
     var level = 0;
 
     queue.push({element : start, level : level});
-    qtdElements.push({level : 0, qtd : 1});
+    // qtdElements.push({level : 0, qtd : 1});
 
     while(queue.length > 0) {
         var current = queue.shift();
@@ -240,8 +240,8 @@ function reorganizeGraphPositions() {
                 //console.log(listElements[j].element === links[i].getTargetElement());
                 //console.log(listElements[j].level < current.level + 1);
                 if(links[i].getTargetElement() !== getCellByText("End")
-                    && listElements[j].element === links[i].getTargetElement()
-                    && listElements[j].level < current.level + 1)
+                    && listElements[j].element === links[i].getTargetElement())
+                    // && listElements[j].level <= current.level + 1)
                 {
                     listElements[j].level = current.level + 1;
                     isElementFound = true;
@@ -249,22 +249,28 @@ function reorganizeGraphPositions() {
             }
             if(!isElementFound && links[i].getTargetElement() !== getCellByText("End")) {
                 listElements.push({element : links[i].getTargetElement(), level : current.level + 1});
-            }
-
-            isElementFound = false;
-            for (var j = 0; j < qtdElements.length && !isElementFound; j++) {
-                if(qtdElements[j].level === current.level + 1) {
-                    qtdElements[j].qtd = qtdElements[j].qtd + 1;
-                    isElementFound = true;
-                }
-            }
-            if(!isElementFound) {
                 qtdElements.push({level: current.level + 1, qtd : 1});
             }
+
+            // isElementFound = false;
+            // for (var j = 0; j < qtdElements.length && !isElementFound; j++) {
+            //     if(qtdElements[j].level === current.level + 1) {
+            //         qtdElements[j].qtd = qtdElements[j].qtd + 1;
+            //         isElementFound = true;
+            //     }
+            // }
+            // if(!isElementFound) {
+            //     qtdElements.push({level: current.level + 1, qtd : 1});
+            // }
         };
     }
 
     var longestPath = calculateLongestPath(start);
+
+    // console.log("listElements " + listElements);
+    // alert(JSON.stringify(listElements, null, 4));
+    // alert(JSON.stringify(qtdElements, null, 4));
+
     updateElementsPositions(listElements, qtdElements, longestPath);
 
     return longestPath;
@@ -288,26 +294,36 @@ function updateElementsPositions(listElements, qtdElements, longestPath) {
     var e = getCellByText("End");
     var xDistBetweenElements = (e.get('position').x - s.get('position').x)/longestPath;
     var yDistBetweenElements = 100;
+    var elementHeight = 60;
+    var centralLineY = s.get('position').y + s.get('size').height/2;
 
+    // alert(JSON.stringify(qtdElements, null, 4));
     for (var i = 0; i < qtdElements.length; i++) {
         var level = qtdElements[i].level;
-        var qtd = qtdElements[i].qtd;
+        // var qtd = qtdElements[i].qtd;
         var sameLevelElements = findAllElementsByLevel(listElements, level);
-        var yInitialPosition = s.get('position').y - ((qtd/2)*yDistBetweenElements);
-
+        var qtd = sameLevelElements.length;
+        var yInitialPosition = centralLineY - (elementHeight)/2 - (((qtd-1)/2)*yDistBetweenElements);
+        // alert(centralLineY);
+        // var yInitialPosition = centralLineY - elementHeight/2 - ((qtd-1)/2)*(yDistBetweenElements);
+        // alert(s.get('position').y);
+        // alert(yInitialPosition);
         for (var j = 0; j < sameLevelElements.length; j++) {
 
-            if(qtd % 2 === 0) {
+          var element = getCellByText(sameLevelElements[j].element.attr('text/text'));
 
-            } else {
+          if(qtd % 2 === 0) {
+            element.set('position', {x: xDistBetweenElements*level, y: (yInitialPosition + (3*j/2)*(yDistBetweenElements - elementHeight)*2)}); // - elementHeight/2
+            // alert(yInitialPosition + (3*j/2)*yDistBetweenElements - elementHeight/2);
+          } else {
+            element.set('position', {x: xDistBetweenElements*level, y: (yInitialPosition + j*yDistBetweenElements)});
+            // alert(yInitialPosition);
+            // alert(j*yDistBetweenElements);
+          }
+          //taskRect.set('position', {x: 0, y: 0});
+          //console.log("nom element " + e.element.attr('text/text'));
+          //element.set('position', {x: (xDistBetweenElements*(level+1) + s.get('position').x), y: (yInitialPosition + (3*level/2)*yDistBetweenElements)});
 
-            }
-
-            var element = getCellByText(sameLevelElements[j].element.attr('text/text'));
-            //taskRect.set('position', {x: 0, y: 0});
-            //console.log("nom element " + e.element.attr('text/text'));
-            //element.set('position', {x: (xDistBetweenElements*(level+1) + s.get('position').x), y: (yInitialPosition + (3*level/2)*yDistBetweenElements)});
-            element.set('position', {x: xDistBetweenElements*level, y: (yInitialPosition + (3*j/2)*yDistBetweenElements)});
         }
     };
 };

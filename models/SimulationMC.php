@@ -13,8 +13,8 @@ class SimulationMC
 	var $typeSimulateur;
 	var $nbEchantillons;
 	var $largeurIntervalle;
-	var $chargeEntree;
-	var $probabiliteEntree;
+	var $charge;
+	var $probabilite;
 	var $projet;
 	var $resultatCalcul;
 

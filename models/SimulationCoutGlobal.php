@@ -1,5 +1,5 @@
 <?php
-require("SimulationMC.php");
+// require("SimulationMC.php");
 // require("Project.php");
 
 Class SimulationCoutGlobal extends SimulationMC {
@@ -10,7 +10,7 @@ Class SimulationCoutGlobal extends SimulationMC {
 
 		foreach ($this->projet->listeTaches as $tache)
     {
-  	  $max = $max + $tache->loi->valeurMax;
+  	  $max = $max + ($tache->loi->valeurMax * $tache->ressource->cout);
 		}
 
     $nbCat = floor(($max / $this->largeurIntervalle) + 1);
@@ -25,7 +25,7 @@ Class SimulationCoutGlobal extends SimulationMC {
     	$ech = 0;
       foreach ($this->projet->listeTaches as $tache)
       {
-        $ech = $ech + $tache->loi->generate();
+        $ech = $ech + ($tache->loi->generate() * $tache->ressource->cout);
       }
 
     	$index = floor($ech/$this->largeurIntervalle);

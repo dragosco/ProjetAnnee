@@ -7,11 +7,11 @@ $project = Project::getInstance();
 $typeSimulateur = $_POST['typeSimulateur'];
 $iteration = $_POST['iteration'];
 $intervalle = $_POST['intervalle'];
+$probabilite = $_POST['probabilite'];
+$charge = $_POST['charge'];
 
-$res = $project->executeSimulation($typeSimulateur, $iteration, $intervalle);
+$res = $project->executeSimulation($typeSimulateur, $iteration, $intervalle, $probabilite, $charge);
 
-// $simulation = new SimulationChargeGlobale($iteration, $intervalle, $project);
-// $res = $simulation->calculate();
 $xAxis = $res->xAxis;
 $yAxis = $res->yAxis;
 

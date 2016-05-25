@@ -8,6 +8,7 @@ require 'lois/LoiRand.php';
 require 'lois/SansLoi.php';
 require("LoiEnum.php");
 require("cnx.php");
+require("Ressource.php");
 // require("Project.php");
 /*
  * Task
@@ -29,6 +30,8 @@ class Task
 	var $predecesseurs;
 	var $successeurs;
 	var $loi;
+	var $ressource;
+
 	var $bdd;
 
 	// function __construct($nom, $predecesseurs, $successeurs, $loi)
@@ -88,6 +91,18 @@ class Task
 		// }
 
 		//$this->loi = $loi;
+	}
+
+	public function loadRessource() {
+		// $reponse = $this->bdd->query('SELECT r.* FROM tache t, ressource r WHERE t.idRessource = r.id AND');
+		// $ressource = $reponse->fetch();
+
+		$this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $this->bdd->prepare("SELECT r.* FROM tache t, ressource r WHERE t.idRessource = r.id AND t.id = ?");
+		$q->execute(array($this->id));
+		$ressource = $q->fetch(PDO::FETCH_ASSOC);
+
+		$this->ressource = new Ressource($ressource['id'], $ressource['nom'], $ressource['cout']);
 	}
 
 	public function addPredecesseur($tache) {

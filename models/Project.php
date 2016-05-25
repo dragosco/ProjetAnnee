@@ -2,6 +2,7 @@
 require("Task.php");
 //require("SimulateurEnum.php");
 require("SimulationChargeGlobale.php");
+require("SimulationCoutGlobal.php");
 //require("cnx.php");
 /*
  * Project
@@ -51,6 +52,7 @@ class Project
 			$tache = new Task($donnees['id'], $donnees['nom'], $donnees['precedent1'], $donnees['precedent2'], $donnees['suivant1'], $donnees['suivant2']/*, $donnees['duree']*/, $this); //, null, null
 			// if($tache->duree == 0) {
 			$tache->loadLoi();
+			$tache->loadRessource();
 			// }
 			array_push($this->listeTaches, $tache);
 		}
@@ -64,12 +66,16 @@ class Project
 		$simulateur = NULL;
 		while ($donnees = $reponse->fetch())
 		{
+			$simulateur = NULL;
 			if($donnees['typeSimulateur'] == SimulateurEnum::ChargeGlobale) {
 				$simulateur = new SimulationChargeGlobale($donnees['typeSimulateur'], $donnees['nbEchantillons'], $donnees['largeurIntervalle'], $this);
-				$simulateur->probabilite = $donnees['probabilite'];
-				$simulateur->charge = $donnees['charge'];
-				array_push($this->listeSimulateurs, $simulateur);
+			} else if ($donnees['typeSimulateur'] == SimulateurEnum::CoutGlobal) {
+				$simulateur = new SimulationCoutGlobal($donnees['typeSimulateur'], $donnees['nbEchantillons'], $donnees['largeurIntervalle'], $this);
 			}
+			$simulateur->probabilite = $donnees['probabilite'];
+			$simulateur->charge = $donnees['charge'];
+			
+			array_push($this->listeSimulateurs, $simulateur);
 		}
 		// echo ($this->listeSimulateurs[0]->nbEchantillons);
 		// echo ($this->listeSimulateurs[0]->largeurIntervalle);
@@ -314,14 +320,16 @@ class Project
 
 	}
 
-	function addSimulateur($typeSimulateur, $nbEchantillons, $largeurIntervalle) { //, $chargeEntree, $probabiliteEntree
+	function addSimulateur($typeSimulateur, $nbEchantillons, $largeurIntervalle, $probabilite, $charge) { //, $chargeEntree, $probabiliteEntree
 		// $simulateur = NULL;
-
-		$q1 = $this->bdd->prepare("INSERT INTO simulateur (idProjet, typeSimulateur, nbEchantillons, largeurIntervalle)
-					VALUES (:idProjet, :typeSimulateur, :nbEchantillons, :largeurIntervalle)");
+		// echo 'add';
+		$q1 = $this->bdd->prepare("INSERT INTO simulateur (idProjet, typeSimulateur, nbEchantillons, largeurIntervalle, probabilite, charge)
+					VALUES (:idProjet, :typeSimulateur, :nbEchantillons, :largeurIntervalle, :probabilite, :charge)");
 		$q1->bindParam(':nbEchantillons', $nbEchantillons, PDO::PARAM_INT, 10);
 		$q1->bindParam(':largeurIntervalle', $largeurIntervalle, PDO::PARAM_INT, 10);
 		$q1->bindParam(':typeSimulateur', $typeSimulateur, PDO::PARAM_STR, 50);
+		$q1->bindParam(':probabilite', $probabilite, PDO::PARAM_INT, 10);
+		$q1->bindParam(':charge', $charge, PDO::PARAM_INT, 10);
 		$q1->bindParam(':idProjet', $this->id, PDO::PARAM_INT, 10);
 		$q1->execute();
 
@@ -336,32 +344,63 @@ class Project
 		$this->listeSimulateurs = array();
 		$this->loadListeSimulateurs();
 
-		return $this->listeSimulateurs[0];
+		$simulateur = $this->getSimulateurByType($typeSimulateur);
+
+		// $simulateur = NULL;
+		// for ($i=0; $i < count($this->listeSimulateurs); $i++) {
+		// 	// echo 'entrou loop';
+		// 	// echo '$typeSimulateur ' . $typeSimulateur;
+		// 	// echo ' ';
+		// 	// echo '$this->listeSimulateurs[$i]->typeSimulateur ' . $this->listeSimulateurs[$i]->typeSimulateur;
+		// 	if($this->listeSimulateurs[$i]->typeSimulateur == $typeSimulateur) {
+		// 		echo 'encontrou';
+		// 		$simulateur = $this->listeSimulateurs[$i];
+		// 		$i = count($this->listeSimulateurs);
+		// 	}
+		// }
+
+		return $simulateur;
 	}
 
-	function updateSimulateur($simulateur, $typeSimulateur, $nbEchantillons, $largeurIntervalle) {
-		$q1 = $this->bdd->prepare("UPDATE simulateur SET nbEchantillons = :nbEchantillons, largeurIntervalle = :largeurIntervalle WHERE typeSimulateur = :typeSimulateur AND idProjet = :idProjet");
+	function updateSimulateur($simulateur, $typeSimulateur, $nbEchantillons, $largeurIntervalle, $probabilite, $charge) {
+		$q1 = $this->bdd->prepare("UPDATE simulateur SET nbEchantillons = :nbEchantillons,
+			largeurIntervalle = :largeurIntervalle, probabilite = :probabilite, charge = :charge
+			WHERE typeSimulateur = :typeSimulateur AND idProjet = :idProjet");
 		$q1->bindParam(':nbEchantillons', $nbEchantillons, PDO::PARAM_INT, 10);
 		$q1->bindParam(':largeurIntervalle', $largeurIntervalle, PDO::PARAM_INT, 10);
 		$q1->bindParam(':typeSimulateur', $typeSimulateur, PDO::PARAM_STR, 50);
+		$q1->bindParam(':probabilite', $probabilite, PDO::PARAM_INT, 10);
+		$q1->bindParam(':charge', $charge, PDO::PARAM_INT, 10);
 		$q1->bindParam(':idProjet', $this->id, PDO::PARAM_INT, 10);
 		$q1->execute();
 
 		$this->listeSimulateurs = array();
 		$this->loadListeSimulateurs();
 
-		return $this->listeSimulateurs[0];
+		$simulateur = $this->getSimulateurByType($typeSimulateur);
+
+		// $simulateur = NULL;
+		// for ($i=0; $i < count($this->listeSimulateurs); $i++) {
+		// 	if($this->listeSimulateurs[$i]->typeSimulateur == $typeSimulateur) {
+		// 		$simulateur = $this->listeSimulateurs[$i];
+		// 		$i = count($this->listeSimulateurs);
+		// 	}
+		// }
+		//
+		return $simulateur;
 	}
 
-	function getSimulateur($typeSimulateur, $nbEchantillons, $largeurIntervalle) {
+	function getSimulateur($typeSimulateur, $nbEchantillons, $largeurIntervalle, $probabilite, $charge) {
 		$simulateur = NULL;
 
 		for ($i=0; $i < count($this->listeSimulateurs); $i++) {
 			if($this->listeSimulateurs[$i]->typeSimulateur == $typeSimulateur) {
 				if($this->listeSimulateurs[$i]->nbEchantillons != $nbEchantillons ||
-					$this->listeSimulateurs[$i]->largeurIntervalle != $largeurIntervalle)
+					$this->listeSimulateurs[$i]->largeurIntervalle != $largeurIntervalle ||
+					$this->listeSimulateurs[$i]->probabilite != $probabilite ||
+					$this->listeSimulateurs[$i]->charge != $charge)
 				{
-					$simulateur = $this->updateSimulateur($this->listeSimulateurs[$i], $typeSimulateur, $nbEchantillons, $largeurIntervalle);
+					$simulateur = $this->updateSimulateur($this->listeSimulateurs[$i], $typeSimulateur, $nbEchantillons, $largeurIntervalle, $probabilite, $charge);
 				} else {
 					$simulateur = $this->listeSimulateurs[$i];
 				}
@@ -370,35 +409,47 @@ class Project
 		}
 
 		if(is_null($simulateur)) {
-			$simulateur = $this->addSimulateur($typeSimulateur, $nbEchantillons, $largeurIntervalle);
+			$simulateur = $this->addSimulateur($typeSimulateur, $nbEchantillons, $largeurIntervalle, $probabilite, $charge);
 		}
 
 		return $simulateur;
 	}
 
-	function executeSimulation($typeSimulateur, $iteration, $intervalle) {
+	function executeSimulation($typeSimulateur, $iteration, $intervalle, $probabilite, $charge) {
 		// echo ("executeSimulation");
 		// chercher si deja existent
 		// sinon créer et insérer dans la bd
-		$simulation = $this->getSimulateur($typeSimulateur, $iteration, $intervalle);
+		$simulation = $this->getSimulateur($typeSimulateur, $iteration, $intervalle, $probabilite, $charge);
 		// $simulation = new SimulationChargeGlobale($typeSimulateur, $iteration, $intervalle, $this);
 		$res = $simulation->calculate();
 
 		return $res;
 	}
 
-	function estimateCharge($typeSimulateur, $iteration, $intervalle, $probabilite) {
-		$simulation = $this->getSimulateur($typeSimulateur, $iteration, $intervalle);
+	function estimateCharge($typeSimulateur, $iteration, $intervalle, $probabilite, $charge) {
+		$simulation = $this->getSimulateur($typeSimulateur, $iteration, $intervalle, $probabilite, $charge);
 		//update bd avec probabilite
 		$charge = $simulation->estimateChargeGivenProbability($probabilite);
 		return $charge;
 	}
 
-	function estimateProbability($typeSimulateur, $iteration, $intervalle, $charge) {
-		$simulation = $this->getSimulateur($typeSimulateur, $iteration, $intervalle);
+	function estimateProbability($typeSimulateur, $iteration, $intervalle, $probabilite, $charge) {
+		$simulation = $this->getSimulateur($typeSimulateur, $iteration, $intervalle, $probabilite, $charge);
 		//update bd avec charge
 		$probabilite = $simulation->estimateProbabilityGivenCharge($charge);
 		return $probabilite;
+	}
+
+	function getSimulateurByType($typeSimulateur) {
+		$simulateur = NULL;
+		for ($i=0; $i < count($this->listeSimulateurs); $i++) {
+			if($this->listeSimulateurs[$i]->typeSimulateur == $typeSimulateur) {
+				$simulateur = $this->listeSimulateurs[$i];
+				$i = count($this->listeSimulateurs);
+			}
+		}
+
+		return $simulateur;
 	}
 
 	public function getLongestPath()

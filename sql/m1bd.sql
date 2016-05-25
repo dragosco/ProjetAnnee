@@ -166,7 +166,7 @@ INSERT INTO `projet` (`id`, `nomp`, `description`) VALUES
 --
 
 INSERT INTO `simulateur` (`idProjet`, `typeSimulateur`, `nbEchantillons`, `largeurIntervalle`, `probabilite`, `charge`) VALUES
-(1, 'chargeGlobale', 10000, 30, 170, 80);
+(1, 'chargeGlobale', 10000, 30, 80, 170);
 
 INSERT INTO `ressource` (`nom`, `cout`) VALUES
 ('Ressource 1', 100),
