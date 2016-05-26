@@ -240,8 +240,8 @@ function reorganizeGraphPositions() {
                 //console.log(listElements[j].element === links[i].getTargetElement());
                 //console.log(listElements[j].level < current.level + 1);
                 if(links[i].getTargetElement() !== getCellByText("End")
-                    && listElements[j].element === links[i].getTargetElement())
-                    // && listElements[j].level <= current.level + 1)
+                    && listElements[j].element === links[i].getTargetElement()
+                    && listElements[j].level < current.level + 1)
                 {
                     listElements[j].level = current.level + 1;
                     isElementFound = true;
