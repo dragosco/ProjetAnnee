@@ -7,6 +7,10 @@ $(document).ready(function() {
     $('#contenuCoutGlobal').toggle(); //'show'
     // $('#contenuChargeGlobale').toggle();
   });
+  $('#titre_Marge').on('click', function(event) {
+    $('#contenu_Marge').toggle(); //'show'
+    // $('#contenuChargeGlobale').toggle();
+  });
 });
 
 $('')
@@ -26,6 +30,8 @@ function calculate(typeSimulateur, iteration, intervalle, probabilite, charge, d
     nomChart = 'Simulation de charge globale';
   } else if(typeSimulateur=='coutGlobal') {
     nomChart = 'Simulation de coût global';
+  } else if(typeSimulateur=='margeFinanciere') {
+    nomChart = 'Simulation de marge financière';
   }
 
   $.ajax({
@@ -87,6 +93,8 @@ function estimateProbability(typeSimulateur, iteration, intervalle, probabilite,
     outputId += '_Charge';
   } else if(typeSimulateur=='coutGlobal') {
     outputId += '_Cout';
+  } else if(typeSimulateur=='margeFinanciere') {
+    outputId += '_Marge';
   }
 
   $.ajax({
@@ -110,6 +118,8 @@ function estimateCharge(typeSimulateur, iteration, intervalle, probabilite, char
     outputId += '_Charge';
   } else if(typeSimulateur=='coutGlobal') {
     outputId += '_Cout';
+  } else if(typeSimulateur=='margeFinanciere') {
+    outputId += '_Marge';
   }
 
   $.ajax({

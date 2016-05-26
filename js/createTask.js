@@ -293,7 +293,7 @@ function updateElementsPositions(listElements, qtdElements, longestPath) {
     var s = getCellByText("Start");
     var e = getCellByText("End");
     var xDistBetweenElements = (e.get('position').x - s.get('position').x)/longestPath;
-    var yDistBetweenElements = 100;
+    var yDistBetweenElements = 150;
     var elementHeight = 60;
     var centralLineY = s.get('position').y + s.get('size').height/2;
 
@@ -303,7 +303,7 @@ function updateElementsPositions(listElements, qtdElements, longestPath) {
         // var qtd = qtdElements[i].qtd;
         var sameLevelElements = findAllElementsByLevel(listElements, level);
         var qtd = sameLevelElements.length;
-        var yInitialPosition = centralLineY - (elementHeight)/2 - (((qtd-1)/2)*yDistBetweenElements);
+        var yInitialPosition = centralLineY - (elementHeight)/2 - ((qtd-1)*yDistBetweenElements/2);
         // alert(centralLineY);
         // var yInitialPosition = centralLineY - elementHeight/2 - ((qtd-1)/2)*(yDistBetweenElements);
         // alert(s.get('position').y);
@@ -313,7 +313,7 @@ function updateElementsPositions(listElements, qtdElements, longestPath) {
           var element = getCellByText(sameLevelElements[j].element.attr('text/text'));
 
           if(qtd % 2 === 0) {
-            element.set('position', {x: xDistBetweenElements*level, y: (yInitialPosition + (3*j/2)*(yDistBetweenElements - elementHeight)*2)}); // - elementHeight/2
+            element.set('position', {x: xDistBetweenElements*level, y: (yInitialPosition + j*yDistBetweenElements)});//(3*j/2)*(yDistBetweenElements - elementHeight)*2)}); // - elementHeight/2
             // alert(yInitialPosition + (3*j/2)*yDistBetweenElements - elementHeight/2);
           } else {
             element.set('position', {x: xDistBetweenElements*level, y: (yInitialPosition + j*yDistBetweenElements)});

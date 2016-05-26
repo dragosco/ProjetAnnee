@@ -3,6 +3,7 @@ require("Task.php");
 //require("SimulateurEnum.php");
 require("SimulationChargeGlobale.php");
 require("SimulationCoutGlobal.php");
+require("SimulationMargeFinanciere.php");
 //require("cnx.php");
 /*
  * Project
@@ -71,10 +72,12 @@ class Project
 				$simulateur = new SimulationChargeGlobale($donnees['typeSimulateur'], $donnees['nbEchantillons'], $donnees['largeurIntervalle'], $this);
 			} else if ($donnees['typeSimulateur'] == SimulateurEnum::CoutGlobal) {
 				$simulateur = new SimulationCoutGlobal($donnees['typeSimulateur'], $donnees['nbEchantillons'], $donnees['largeurIntervalle'], $this);
+			} else if ($donnees['typeSimulateur'] == SimulateurEnum::MargeFinanciere) {
+				$simulateur = new SimulationMargeFinanciere($donnees['typeSimulateur'], $donnees['nbEchantillons'], $donnees['largeurIntervalle'], $this);
 			}
 			$simulateur->probabilite = $donnees['probabilite'];
 			$simulateur->charge = $donnees['charge'];
-			
+
 			array_push($this->listeSimulateurs, $simulateur);
 		}
 		// echo ($this->listeSimulateurs[0]->nbEchantillons);

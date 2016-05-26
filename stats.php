@@ -48,7 +48,7 @@ $project = Project::getInstance();
 		?>
 		<!--/navbar-->
 
-		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row main">
 		  <div class="row">
 		    <div class="col-lg-12">
 		      <h1 class="page-header">Statistiques</h1>
@@ -66,6 +66,9 @@ $project = Project::getInstance();
 							<!-- <br> -->
 							<?php
 								require 'coutGlobal.php';
+							?>
+							<?php
+								require 'margeFinanciere.php';
 							?>
 					 	</div>
 		      </div>
