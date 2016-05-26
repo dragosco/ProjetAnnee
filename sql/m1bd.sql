@@ -166,7 +166,7 @@ INSERT INTO `projet` (`id`, `nomp`, `description`) VALUES
 --
 
 INSERT INTO `simulateur` (`idProjet`, `typeSimulateur`, `nbEchantillons`, `largeurIntervalle`, `probabilite`, `charge`) VALUES
-(1, 'chargeGlobale', 10000, 30, 80, 170);
+(1, 'chargeGlobale', 10000, 5, 80, 22);
 
 INSERT INTO `ressource` (`nom`, `cout`) VALUES
 ('Ressource 1', 100),
@@ -176,27 +176,36 @@ INSERT INTO `ressource` (`nom`, `cout`) VALUES
 ('Ressource 5', 90);
 
 INSERT INTO `tache` (`id`, `idProjet`, `idRessource`, `nom`, `suivant1`, `suivant2`, `precedent1`, `precedent2`) VALUES
-(1, 1, 1, 'conception', 'dev front', 'dev back', 'Start', ''),
-(2, 1, 2, 'dev front', 'dev final', 'final', 'conception', ''),
-(3, 1, 3, 'dev back', 'dev final', 'final', 'conception', ''),
-(4, 1, 4, 'dev final', 'End', '', 'dev back', 'dev front'),
-(5, 1, 5, 'final', 'End', '', 'dev back', 'dev front');
+(1, 1, 1, 'spécification', 'conception', 'maquettage', 'Start', ''),
+(2, 1, 2, 'conception', 'dév', '', 'spécification', ''),
+(3, 1, 3, 'maquettage', 'dév IHM', '', 'spécification', ''),
+(4, 1, 4, 'dév', 'intégration', '', 'conception', ''),
+(5, 1, 5, 'dév IHM', 'intégration', '', 'maquettage', ''),
+(6, 1, 1, 'intégration', 'test', '', 'dév', 'dév IHM'),
+(7, 1, 2, 'test', 'bug fixing', '', 'intégration', ''),
+(8, 1, 3, 'bug fixing', 'End', '', 'test', '');
 
 INSERT INTO `loi` (`id`, `nom`, `idTache`, `valeurMin`, `valeurMax`) VALUES
-(1, 'beta', 1, 0, 60),
-(2, 'normale', 3, 0, 50),
-(3, 'triangulaire', 2, 0, 55),
-(4, 'uniforme', 4, 0, 45),
-(5, 'sansLoi', 5, 15, 15);
+(1, 'beta', 1, 0, 5),
+(2, 'normale', 2, 0, 4),
+(3, 'triangulaire', 3, 0, 2),
+(4, 'uniforme', 4, 0, 15),
+(5, 'sansLoi', 5, 2, 2),
+(6, 'beta', 6, 0, 2),
+(7, 'normale', 7, 0, 5),
+(8, 'triangulaire', 8, 0, 4);
 
 INSERT INTO `loiBeta` (`id`, `w`, `v`) VALUES
-(1, 1.5, 2);
+(1, 1.5, 2),
+(6, 0.5, 1);
 
 INSERT INTO `loiNormale` (`id`, `mu`, `sigma`) VALUES
-(2, 25, 5);
+(2, 0, 2),
+(7, 1, 2);
 
 INSERT INTO `loiTriangulaire` (`id`, `c`) VALUES
-(3, 1.5);
+(3, 1.5),
+(8, 2);
 
 --
 -- Contenu de la table `membre`

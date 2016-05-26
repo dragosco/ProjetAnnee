@@ -66,7 +66,7 @@ var start = extreme.clone();
     start.position(10, bounds.get('size').height/2-50);
     start.attr('text/text', 'Start'); //start.attr({text: {text: 'Start'}});
 var end = extreme.clone();
-    end.position(bounds.get('size').width-200, bounds.get('size').height/2-50);
+    end.position(bounds.get('size').width-110, bounds.get('size').height/2-50);
     end.attr('text/text', 'End');
 graph.addCells([start, end]);
 bounds.embed(start);
@@ -159,15 +159,37 @@ function reorganizeGraphPositions() {
                 //console.log(listElements[j].level < current.level + 1);
                 if(links[i].getTargetElement() !== getCellByText("End")
                     && listElements[j].element === links[i].getTargetElement()
-                    && listElements[j].level < current.level + 1)
+                    && listElements[j].level <= current.level + 1)
                 {
                     listElements[j].level = current.level + 1;
                     isElementFound = true;
+
+                    // isElementFoundQtd = false;
+                    // for (var j = 0; j < qtdElements.length && !isElementFoundQtd; j++) {
+                    //     if(qtdElements[j].level === current.level + 1) {
+                    //         qtdElements[j].qtd = qtdElements[j].qtd + 1;
+                    //         isElementFoundQtd = true;
+                    //     }
+                    // }
+                    // if(!isElementFoundQtd) {
+                    //     qtdElements.push({level: current.level + 1, qtd : 1});
+                    // }
                 }
             }
             if(!isElementFound && links[i].getTargetElement() !== getCellByText("End")) {
                 listElements.push({element : links[i].getTargetElement(), level : current.level + 1});
-                qtdElements.push({level: current.level + 1, qtd : 1});
+                // qtdElements.push({level: current.level + 1, qtd : 1});
+
+                isElementFoundQtd = false;
+                for (var j = 0; j < qtdElements.length && !isElementFoundQtd; j++) {
+                    if(qtdElements[j].level === current.level + 1) {
+                        qtdElements[j].qtd = qtdElements[j].qtd + 1;
+                        isElementFoundQtd = true;
+                    }
+                }
+                if(!isElementFoundQtd) {
+                    qtdElements.push({level: current.level + 1, qtd : 1});
+                }
             }
 
             // isElementFound = false;
@@ -206,6 +228,21 @@ function updateElementsPositions(listElements, qtdElements, longestPath) {
         return 0;
     });
 
+    // for (var i = 0; i < listElements.length; i++) {
+    //   listElements[i]
+    // }
+    //
+    // isElementFound = false;
+    // for (var j = 0; j < qtdElements.length && !isElementFound; j++) {
+    //     if(qtdElements[j].level === current.level + 1) {
+    //         qtdElements[j].qtd = qtdElements[j].qtd + 1;
+    //         isElementFound = true;
+    //     }
+    // }
+    // if(!isElementFound) {
+    //     qtdElements.push({level: current.level + 1, qtd : 1});
+    // }
+
     //start.position(10, bounds.get('size').height/2-50);
     //end.position(bounds.get('size').width-200, bounds.get('size').height/2-50);
     var s = getCellByText("Start");
@@ -218,9 +255,9 @@ function updateElementsPositions(listElements, qtdElements, longestPath) {
     // alert(JSON.stringify(qtdElements, null, 4));
     for (var i = 0; i < qtdElements.length; i++) {
         var level = qtdElements[i].level;
-        // var qtd = qtdElements[i].qtd;
+        var qtd = qtdElements[i].qtd;
         var sameLevelElements = findAllElementsByLevel(listElements, level);
-        var qtd = sameLevelElements.length;
+        // var qtd = sameLevelElements.length;
         var yInitialPosition = centralLineY - (elementHeight)/2 - ((qtd-1)*yDistBetweenElements/2);
         // alert(centralLineY);
         // var yInitialPosition = centralLineY - elementHeight/2 - ((qtd-1)/2)*(yDistBetweenElements);
