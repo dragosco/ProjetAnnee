@@ -17,6 +17,7 @@ class Project
 	var $tacheDebut;
 	var $tacheFin;
 	var $listeTaches;
+	var $listeRessources;
 	//var $simulationMC;
 	var $listeSimulateurs;
 	var $bdd;
@@ -29,6 +30,7 @@ class Project
 		$this->nom = $nom;
 		$this->tacheDebut = $tacheDebut;
 		$this->tacheFin = $tacheFin;
+		$this->listeRessources = array();
 		//$this->simulationMC = $simulationMC;
 		$this->listeTaches = array();
 		$this->listeSimulateurs = array();
@@ -38,7 +40,7 @@ class Project
 
 		// $this->bdd->query('INSERT INTO `projet` (`id`, `nomp`, `description`) VALUES (NULL, $nom, `desc`)');
 		$this->id = 1; //$this->bdd->lastInsertId();
-
+		$this->loadListeRessources();
 		$this->loadListeTaches();
 		$this->loadListeSimulateurs();
 	}
@@ -84,6 +86,16 @@ class Project
 		// echo ($this->listeSimulateurs[0]->largeurIntervalle);
 
 	}
+	function loadListeRessources() {
+		$reponse = $this->bdd->query('SELECT * FROM ressource');
+
+		while ($donnees = $reponse->fetch())
+		{
+			$ressource = new Ressource($donnees['id'], $donnees['nom'], $donnees['cout']); //, null, null
+			
+			array_push($this->listeRessources, $ressource);
+		}
+	}
 
 	public static function getInstance() {
 
@@ -119,10 +131,110 @@ class Project
 	// 	return $this->listeTaches;
 	// }
 
-	public function addTask($nom, $listePredecesseurs, $listeSuccesseurs)
+	public function addTask($nom, $prec1, $prec2, $suiv1, $suiv2, $idRessource, $loi)
 	{
-		//array_push($this->listeTaches, new Task($donnees['nom'], null, null, null));
-		//$this->bdd->query('INSERT INTO tache () VALUES ()');
+		$this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $this->bdd->prepare("INSERT INTO tache (nom, precedent1, precedent2, suivant1, suivant2, idRessource, idProjet)
+										VALUES (:nom, :precedent1, :precedent2, :suivant1, :suivant2, :idRessource, :idProjet)");
+		$q->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+		$q->bindParam(':precedent1', $prec1, PDO::PARAM_STR, 50);
+		$q->bindParam(':precedent2', $prec2, PDO::PARAM_STR, 50);
+		$q->bindParam(':suivant1', $suiv1, PDO::PARAM_STR, 50);
+		$q->bindParam(':suivant2', $suiv2, PDO::PARAM_STR, 50);
+		$q->bindParam(':idRessource', $idRessource, PDO::PARAM_INT);
+		$q->bindParam(':idProjet', $this->id, PDO::PARAM_INT);
+		$q->execute();
+
+		$idTache = $this->bdd->lastInsertId();
+
+		$q1 = $this->bdd->prepare("INSERT INTO loi (nom, idTache, valeurMin, valeurMax)
+										VALUES (:nomLoi, :idTache, :valeurMin, :valeurMax)");
+		$q1->bindParam(':nomLoi', $loi['nom'], PDO::PARAM_STR, 50);
+		$q1->bindParam(':idTache', $idTache, PDO::PARAM_INT);
+		$q1->bindParam(':valeurMin', $loi['valeurMin'], PDO::PARAM_INT);
+		$q1->bindParam(':valeurMax', $loi['valeurMax'], PDO::PARAM_INT);
+		$q1->execute();
+
+		$idLoi = $this->bdd->lastInsertId();
+
+		if($loi['nom'] == LoiEnum::Beta) {
+			$q3 = $this->bdd->prepare("INSERT INTO loiBeta (id, w, v) VALUES (:id, :w, :v)");
+			$q3->bindParam(':id', $idLoi, PDO::PARAM_INT);
+			$q3->bindParam(':w', $loi['w'], PDO::PARAM_STR, 50);
+			$q3->bindParam(':v', $loi['v'], PDO::PARAM_STR, 50);
+			$q3->execute();
+		} else if($loi['nom'] == LoiEnum::Triangulaire) {
+			$q3 = $this->bdd->prepare("INSERT INTO loiTriangulaire (id, c) VALUES (:id, :c)");
+			$q3->bindParam(':id', $idLoi, PDO::PARAM_INT);
+			$q3->bindParam(':c', $loi['c'], PDO::PARAM_STR, 50);
+			$q3->execute();
+		} else if($loi['nom'] == LoiEnum::Normale) {
+			$q3 = $this->bdd->prepare("INSERT INTO loiNormale (id, mu, sigma) VALUES (:id, :mu, :sigma)");
+			$q3->bindParam(':id', $idLoi, PDO::PARAM_INT);
+			$q3->bindParam(':mu', $loi['mu'], PDO::PARAM_STR, 50);
+			$q3->bindParam(':sigma', $loi['sigma'], PDO::PARAM_STR, 50);
+			$q3->execute();
+		}
+
+		if ($prec1 !== "" && $prec1 !== "Start") {
+			$q1 = $this->bdd->prepare("UPDATE tache SET suivant1 = :nom WHERE nom = :prec1 AND suivant1 = ''");
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->bindParam(':prec1', $prec1, PDO::PARAM_STR, 50);
+			$succes = $q1->execute();
+
+			if(!$succes) {
+				$q1 = $this->bdd->prepare("UPDATE tache SET suivant2 = :nom WHERE nom = :prec1 AND suivant2 = ''");
+				$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+				$q1->bindParam(':prec1', $prec1, PDO::PARAM_STR, 50);
+				$q1->execute();
+			}
+		}
+
+		if ($prec2 !== "" && $prec2 !== "Start") {
+			$q1 = $this->bdd->prepare("UPDATE tache SET suivant1 = :nom WHERE nom = :prec2 AND suivant1 = ''");
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->bindParam(':prec2', $prec2, PDO::PARAM_STR, 50);
+			$succes = $q1->execute();
+
+			if(!$succes) {
+				$q1 = $this->bdd->prepare("UPDATE tache SET suivant2 = :nom WHERE nom = :prec2 AND suivant2 = ''");
+				$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+				$q1->bindParam(':prec2', $prec2, PDO::PARAM_STR, 50);
+				$q1->execute();
+			}
+		}
+
+		if ($suiv1 !== "" && $suiv1 !== "End") {
+			$q1 = $this->bdd->prepare("UPDATE tache SET precedent1 = :nom WHERE nom = :suiv1 AND precedent1 = ''");
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->bindParam(':suiv1', $suiv1, PDO::PARAM_STR, 50);
+			$succes = $q1->execute();
+
+			if(!$succes) {
+				$q1 = $this->bdd->prepare("UPDATE tache SET precedent2 = :nom WHERE nom = :suiv1 AND precedent2 = ''");
+				$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+				$q1->bindParam(':suiv1', $suiv1, PDO::PARAM_STR, 50);
+				$q1->execute();
+			}
+		}
+
+		if ($suiv2 !== "" && $suiv2 !== "End") {
+			$q1 = $this->bdd->prepare("UPDATE tache SET precedent1 = :nom WHERE nom = :suiv2 AND precedent1 = ''");
+			$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+			$q1->bindParam(':suiv2', $suiv2, PDO::PARAM_STR, 50);
+			$succes = $q1->execute();
+
+			if(!$succes) {
+				$q1 = $this->bdd->prepare("UPDATE tache SET precedent2 = :nom WHERE nom = :suiv2 AND precedent2 = ''");
+				$q1->bindParam(':nom', $nom, PDO::PARAM_STR, 50);
+				$q1->bindParam(':suiv2', $suiv2, PDO::PARAM_STR, 50);
+				$q1->execute();
+			}
+		}
+
+		$this->listeTaches = array();
+		$this->loadListeTaches();
+
 	}
 
 	public function removeTask($id)
@@ -454,6 +566,8 @@ class Project
 
 		return $simulateur;
 	}
+
+
 
 	public function getLongestPath()
 	{

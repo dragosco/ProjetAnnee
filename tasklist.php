@@ -45,7 +45,7 @@ $project = Project::getInstance();
             <div class="col-lg-12">
                 <div class="panel panel-default">
 					<div class="panel-heading">
-						<a class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-plus"></span> Add Tasks</a>
+						<a class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-plus"></span> Add Task</a>
 						<a class="btn btn-link" href="tasklist_edit.php">Edit Task List</a>
 					</div>
                     	<div class="panel-body">
@@ -130,37 +130,78 @@ $project = Project::getInstance();
 										        <h4 class="modal-title">Add Task</h4>
 										      </div>
 										            <!-- Le paramètrage de la tâche est initialement caché -->
-										            <form methode="Post" action="add.php">
+										            <form method="POST" action="insert.php">
 										            <div class="row" >
 										                <br>
 										                <div class="row">
-										                    <div class="col-md-12"><input class="form-control" id="taskInput" type="text" name="taskName" placeholder="Task name" /></div>
+										                    <div class="col-md-12"><input class="form-control" id="taskInput" type="text" name="nom" placeholder="Task name" /></div>
 										                </div>
 										                <br>
 										                <div class="row">
 										                    <div class="col-md-6 ">
 										                        <fieldset class="form-group">
-										                            <label class="formLabel" for="leftTaskSelector">Follows</label>
-										                            <select class="form-control" id="leftTaskSelector" data-toggle="tooltip" data-placement="right" title="Choose the task(s) it follows <br/> [Ctrl + Select] for multiple choices"multiple>
-										                                <option>Start</option>
+										                            <label class="formLabel" for="leftTaskSelector1">1st predecessor</label>
+										                            <select class="form-control" id="leftTaskSelector1" name="prec1">
+																		<option value="Start">Start</option>
+																		<?php foreach ($project->listeTaches as $task) { ?>
+																				<option value="<?php echo $task->nom ?>"><?php echo $task->nom ?></option>
+																		<?php }?>
 										                            </select>
 										                        </fieldset>
 										                    </div>
+															<div class="col-md-6 ">
+																<fieldset class="form-group">
+																	<label class="formLabel" for="leftTaskSelector2">2nd predecessor</label>
+																	<select class="form-control" id="leftTaskSelector2" name="prec2">
+																		<option value="Start">Start</option>
+																		<?php foreach ($project->listeTaches as $task) { ?>
+																			<option value="<?php echo $task->nom ?>"><?php echo $task->nom ?></option>
+																		<?php }?>
+																		<option value="" selected>none</option>
+																	</select>
+																</fieldset>
+															</div>
 										                    <div class="col-md-6">
 										                        <fieldset class="form-group">
-										                            <label class="formLabel" for="rightTaskSelector">Precedes</label>
-										                            <select class="form-control" id="rightTaskSelector" data-toggle="tooltip" data-placement="right" title="Choose the task(s) it precedes <br/> [Ctrl + Select] for multiple choices" multiple>
-										                                <option>End</option>
+										                            <label class="formLabel" for="rightTaskSelector1">1st successor</label>
+										                            <select class="form-control" id="rightTaskSelector1" name="suiv1">
+																		<option value="End">End</option>
+																		<?php foreach ($project->listeTaches as $task) { ?>
+																			<option value="<?php echo $task->nom ?>"><?php echo $task->nom ?></option>
+																		<?php }?>
 										                            </select>
 										                        </fieldset>
 										                    </div>
+															<div class="col-md-6">
+																<fieldset class="form-group">
+																	<label class="formLabel" for="rightTaskSelector2">2nd successor</label>
+																	<select class="form-control" id="rightTaskSelector2" name="suiv2">
+																		<option value="End">End</option>
+																		<?php foreach ($project->listeTaches as $task) { ?>
+																			<option value="<?php echo $task->nom ?>"><?php echo $task->nom ?></option>
+																		<?php }?>
+																		<option value="" selected>none</option>
+																	</select>
+																</fieldset>
+															</div>
 										                </div>
 										                <br>
+														<div class="col-md-12">
+															<div class="row">
+																<label class="formLabel" for="resource">Resource</label>
+																<select class="form-control" id="rightTaskSelector2" name="idRessource">
+																	<?php foreach ($project->listeRessources as $ressource) { ?>
+																		<option value="<?php echo $ressource->id ?>"><?php echo $ressource->nom .' (cj : ' . $ressource->cout . '€)' ?></option>
+																	<?php }?>
+																</select>
+															</div>
+														</div>
 										                <div class="col-md-12">
 										                <div class="row">
 										                    <label class="formLabel" for="probaLawBtnGroup">Probability Law</label>
 										                </div>
 										                </div>
+														<input type="hidden" id="lawName" name="nomLoi" value=""/>
 										                <div class="col-md-12 btn-group btn-group-justified" data-toggle="buttons" id="probaLawBtnGroup">
 										                        <div class="btn-group">
 										                            <button type="button" class="btn btn-default btn-law" value="1">υ</button>
@@ -175,82 +216,71 @@ $project = Project::getInstance();
 										                            <button type="button" class="btn btn-default btn-law" value="4">σ</button>
 										                        </div>
 										                        <div class="btn-group">
-										                            <button type="button" class="btn btn-default btn-law" value="5">[σ]</button>
+										                            <button type="button" class="btn btn-default btn-law" value="5">no law</button>
 										                        </div>
 										                </div>
-
 										                <div class="law col-md-12" id="blk-1">
 										                    <p><b>loi uniforme</b></p>
 										                    <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Min">
+										                		<input type="text" class="form-control" placeholder="Min" name="min_unif">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Max">
+										                		<input type="text" class="form-control" placeholder="Max" name="max_unif">
 										                     </div>
 										                </div>
 										                <div class="law col-md-12" id="blk-2">
 										                    <p><b>loi beta</b></p>
 										                    <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Min">
+										                		<input type="text" class="form-control" placeholder="Min" name="min_beta">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Max">
+										                		<input type="text" class="form-control" placeholder="Max" name="max_beta">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="V">
+										                		<input type="text" class="form-control" placeholder="V" name="v">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="W">
+										                		<input type="text" class="form-control" placeholder="W" name="w">
 										                     </div>
 										                </div>
 										                <div class="law col-md-12" id="blk-3">
 										                    <p><b>loi triangulaire</b></p>
-										                <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Min">
+										                	<div class="form-group">
+										                		<input type="text" class="form-control" placeholder="Min" name="min_triang">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Max">
+										                		<input type="text" class="form-control" placeholder="Max" name="max_triang">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="C">
+										                		<input type="text" class="form-control" placeholder="c" name="c">
 										                     </div>
 										                 </div>
 										                <div class="law col-md-12" id="blk-4">
 										                    <p><b>loi normale</b></p>
 										                    <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Min">
+										                		<input type="text" class="form-control" placeholder="Min" name="min_norm">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Max">
+										                		<input type="text" class="form-control" placeholder="Max" name="max_norm">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Mu">
+										                		<input type="text" class="form-control" placeholder="Mu" name="mu">
 										                     </div>
 										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Sigma">
+										                		<input type="text" class="form-control" placeholder="Sigma" name="sigma">
 										                     </div>
 										                </div>
 										                <div class="law col-md-12" id="blk-5">
-										                    <p><b>loi normale tronquée</b></p>
+										                    <p><b>sans loi</b></p>
 										                    <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Min">
-										                     </div>
-										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Max">
-										                     </div>
-										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Mu">
-										                     </div>
-										                     <div class="form-group">
-										                <input type="text" class="form-control" placeholder="Sigma">
+										                		<input type="text" class="form-control" placeholder="fixed value" name="valeur">
 										                     </div>
 										                </div>
 										                <div class="col-md-12">
-
-										<div class="modal-footer">
-										        <input type="submit" class="btn btn-success" id="createTaskButton" type="submit" name="submit"></button>
-										        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-										      </div>
+															<div class="modal-footer">
+																<input type="submit" class="btn btn-success" id="createTaskButton" type="submit" name="submit"></button>
+																<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+														  	</div>
 										                <br>
 										            </div>
 										            </div>

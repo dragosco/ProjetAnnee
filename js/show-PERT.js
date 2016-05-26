@@ -11,7 +11,6 @@ $(document).ready(function() {
                 var taskRect = rect.clone();
                     taskRect.attr('text/text', task);
                 graph.addCell(taskRect);
-                addTaskToMenu(task);
             });
 
             data.forEach(function (item) {

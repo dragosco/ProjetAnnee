@@ -25,18 +25,9 @@ $project = Project::getInstance();
 </head>
 
 <body>
-	<!--navbar-->
-	<?php
-		require 'navbar.php';
-	?>
-  <!--/navbar-->
-  <!--sidebar-->
-	<?php
-		require 'sidebar.php';
-	?>
-  <!--/sidebar-->
+	<?php require 'navbar.php'; ?>
 
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+	<div class="row main">
 
 		<div class="row">
       <h1 class="page-header">Diagramme De Pert</h1>
