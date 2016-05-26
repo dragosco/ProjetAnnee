@@ -33,7 +33,7 @@ $project = Project::getInstance();
 	?>
   <!--/navbar-->
 
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+	<div class="row main">
 
         <div class="row">
             <div class="col-lg-12">
@@ -43,7 +43,11 @@ $project = Project::getInstance();
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default"><div class="panel-heading"><a class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-plus"></span> Add Tasks</a></div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+						<a class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-plus"></span> Add Tasks</a>
+						<a class="btn btn-link" href="tasklist_edit.php">Edit Task List</a>
+					</div>
                     	<div class="panel-body">
                         <table class="table">
                             <thead>
@@ -70,41 +74,42 @@ $project = Project::getInstance();
                                     <div class="modal fade" id="modalTache<?php echo $task->id;?>" role="dialog">
                                         <div class="modal-dialog">
                                                 <div class="modal-body">
-                                                    <form method="post" action="update.php">
+                                                    <form method="POST" action="update.php">
                                                         <div class="form-group">
                                                             <input type="hidden" name="id" value="<?php echo $task->id;?>" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="nm">Nom</label>
-                                                            <input type="text" class="form-control" id="nm" name="nvnom" value="<?php echo $task->nom; ?>">
+                                                            <input type="text" class="form-control" id="nm" name="nvnom" value="<?php echo $task->nom; ?>" />
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="gd">suivant1</label>
-                                                            <input type="text" class="form-control" id="sv1" name="nvsuivant1" value="<?php echo $task->suivant1; ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="gd">suivant2</label>
-                                                            <input type="text" class="form-control" id="sv2" name="nvsuivant2" value="<?php echo $task->suivant2; ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="gd">precedent1</label>
-                                                            <input type="text" class="form-control" id="pr1" name="nvprecedent1" value="<?php echo $task->precedent1; ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="gd">precedent2</label>
-                                                            <input type="text" class="form-control" id="pr2" name="nvprecedent2" value="<?php echo $task->precedent2; ?>">
-                                                        </div>
+
+														<div class="form-group">
+															<label for="nm">Loi</label>
+															<input type="text" class="form-control" />
+														</div>
 
                                                         <button type="submit" class="btn btn-success">Update</button>
                                                     </form>
                                                 </div>
                                         </div><!-- /.modal-dialog -->
                                     </div><!-- /.modal -->
-                                  <a href="delete.php?id=<?php echo $task->id;?>">
-                                      <span class="glyphicon glyphicon-trash" aria-hidden="true">
+									<a class="btn btn-link" data-toggle="modal" data-target="#modalDeleteTache<?php echo $task->id;?>">
+                                      <span class="glyphicon glyphicon-trash" aria-hidden="true" >
                                       </span>
-                                  <a>
+									</a>
+									<div class="modal fade" id="modalDeleteTache<?php echo $task->id;?>" role="dialog">
+										<div class="modal-dialog">
+											<div class="modal-header">
+												Are you sure you want to delete task '<?php echo $task->nom;?>' ?
+											</div>
+											<div class="modal-body">
+
+
+												<a href="delete.php?id=<?php echo $task->id; ?>">YES</a>
+											</div>
+										</div><!-- /.modal-dialog -->
+									</div><!-- /.modal -->
                                 </td>
 	                              <td><?php echo $task->nom;?></td>
 	                              <td><?php echo $task->precedent1;?></td>
