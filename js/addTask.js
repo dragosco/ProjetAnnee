@@ -1,6 +1,10 @@
 /**
  * Created by Dragos on 11/03/2016.
  */
+$(document).ready(function() {
+    //on LOAD, tout le monde est caché :
+    $('.law').hide();
+});
 
 $(document).on('click', '.btn-group button', function (e) {
     $('.law').hide();
