@@ -27,10 +27,10 @@ $(document).ready(function() {
             var suivs2 = $(this).find("select.suivs2");
 
 
-            var initprecs1 = precs1.parent().find('.prev').text();
-            var initprecs2 = precs2.parent().find('.prev').text();
-            var initsuivs1 = suivs1.parent().find('.prev').text();
-            var initsuivs2 = suivs2.parent().find('.prev').text();
+            var initprecs1 = precs1.parent().find('.init').text();
+            var initprecs2 = precs2.parent().find('.init').text();
+            var initsuivs1 = suivs1.parent().find('.init').text();
+            var initsuivs2 = suivs2.parent().find('.init').text();
 
             if(precs1.val() !== initprecs1) {
                 if(initprecs1 !== "Start" && initprecs1 !== "") {
@@ -55,9 +55,11 @@ $(document).ready(function() {
                         var tsuivs1 = $(this).find("select.suivs1");
                         var tsuivs2 = $(this).find("select.suivs2");
                         if(precs1.val() === tnom) {
+                            console.log(tsuivs2 + "  " + nom);
                             if(tsuivs1.val() === "" || tsuivs1.val() === nom) {
                                 tsuivs1.val(nom);
                             } else if(tsuivs2.val() === "" || tsuivs1.val() === nom) {
+
                                 tsuivs2.val(nom);
                             } else {
                                 errors.push(true);
@@ -124,9 +126,9 @@ $(document).ready(function() {
                         var tprecs1 = $(this).find("select.precs1");
                         var tprecs2 = $(this).find("select.precs2");
                         if(suivs1.val() === tnom) {
-                            if(tprecs1.val() === "") {
+                            if(tprecs1.val() === "" || tprecs1.val() === nom) {
                                 tprecs1.val(nom);
-                            } else if(tprecs2.val() === "") {
+                            } else if(tprecs2.val() === "" || tprecs2.val() === nom) {
                                 tprecs2.val(nom);
                             } else {
                                 errors.push(true);
@@ -158,9 +160,9 @@ $(document).ready(function() {
                         var tprecs1 = $(this).find("select.precs1");
                         var tprecs2 = $(this).find("select.precs2");
                         if(suivs2.val() === tnom) {
-                            if(tprecs1.val() === "") {
+                            if(tprecs1.val() === "" || tprecs1.val() === nom) {
                                 tprecs1.val(nom);
-                            } else if(tprecs2.val() === "") {
+                            } else if(tprecs2.val() === "" || tprecs2.val() === nom) {
                                 tprecs2.val(nom);
                             } else {
                                 errors.push(true);
@@ -174,13 +176,22 @@ $(document).ready(function() {
 
             if(precs1.val() === precs2.val()) {
                 errors.push(true);
-                $('#console').append("<p style='color:red'>Conflict in '" + nom + "' --> predecessors must have different values</p>");
+                if(precs1.val() === "") {
+                    $('#console').append("<p style='color:red'>Conflict in '" + nom + "' --> both predecessors are null</p>");
+                } else {
+                    $('#console').append("<p style='color:red'>Conflict in '" + nom + "' --> predecessors must have different values</p>");
+                }
+
             } else {
                 errors.push(false);
             }
             if(suivs1.val() === suivs2.val()) {
                 errors.push(true);
-                $('#console').append("<p style='color:red'>Conflict in '" + nom + "' --> successors must have different values</p>");
+                if(suivs1.val() === "") {
+                    $('#console').append("<p style='color:red'>Conflict in '" + nom + "' --> both successors are null</p>");
+                } else {
+                    $('#console').append("<p style='color:red'>Conflict in '" + nom + "' --> successors must have different values</p>");
+                }
             } else {
                 errors.push(false);
             }
@@ -212,11 +223,6 @@ $(document).ready(function() {
 
             var tache = {nom:nom, precedent1:precs1.val(), precedent2:precs2.val(), suivant1:suivs1.val(), suivant2:suivs2.val()};
             table.push(tache);
-
-            initprecs1 = precs1;
-            initprecs2 = precs2;
-            initsuivs1 = suivs1;
-            initsuivs2 = suivs2;
         });
 
 
