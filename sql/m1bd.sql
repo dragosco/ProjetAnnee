@@ -177,8 +177,8 @@ INSERT INTO `ressource` (`nom`, `cout`) VALUES
 
 INSERT INTO `tache` (`id`, `idProjet`, `idRessource`, `nom`, `suivant1`, `suivant2`, `precedent1`, `precedent2`) VALUES
 (1, 1, 1, 'conception', 'dev front', 'dev back', 'Start', ''),
-(2, 1, 2, 'dev front', 'dev final', '', 'conception', ''),
-(3, 1, 3, 'dev back', 'dev final', '', 'conception', ''),
+(2, 1, 2, 'dev front', 'dev final', 'final', 'conception', ''),
+(3, 1, 3, 'dev back', 'dev final', 'final', 'conception', ''),
 (4, 1, 4, 'dev final', 'End', '', 'dev back', 'dev front'),
 (5, 1, 5, 'final', 'End', '', 'dev back', 'dev front');
 

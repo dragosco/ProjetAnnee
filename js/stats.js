@@ -11,6 +11,7 @@ $(document).ready(function() {
     $('#contenu_Marge').toggle(); //'show'
     // $('#contenuChargeGlobale').toggle();
   });
+  $('#waitForGraph').hide();
 });
 
 $('')
@@ -33,10 +34,11 @@ function calculate(typeSimulateur, iteration, intervalle, probabilite, charge, d
   } else if(typeSimulateur=='margeFinanciere') {
     nomChart = 'Simulation de marge financière';
   }
-
+  $('#waitForGraph').show();
+  
   $.ajax({
       type: 'POST',
-      url: "/ProjetAnnee/calculStat_json.php", //?iteration="+iteration+"&intervale="+intervale,
+      url: "/ProjetAnnee/json/calculStat_json.php", //?iteration="+iteration+"&intervale="+intervale,
       dataType: 'json',
       data: parametres,
       // beforeSend: function() {
@@ -49,6 +51,7 @@ function calculate(typeSimulateur, iteration, intervalle, probabilite, charge, d
         xAxis = data.xAxis;
         yAxis = data.yAxis;
 
+        $('#waitForGraph').hide();
         $('#'+divId).highcharts({
           chart: {
             type: 'line'
@@ -99,7 +102,7 @@ function estimateProbability(typeSimulateur, iteration, intervalle, probabilite,
 
   $.ajax({
     type: 'POST',
-    url: "/ProjetAnnee/estimateProbabilityGivenCharge_json.php", //?iteration="+iteration+"&intervale="+intervale+"&charge="+charge,
+    url: "/ProjetAnnee/json/estimateProbabilityGivenCharge_json.php", //?iteration="+iteration+"&intervale="+intervale+"&charge="+charge,
     dataType: 'json',
     data: parametres,
     success: function (data) {
@@ -124,7 +127,7 @@ function estimateCharge(typeSimulateur, iteration, intervalle, probabilite, char
 
   $.ajax({
     type: 'POST',
-    url: "/ProjetAnnee/estimateChargeGivenProbability_json.php", //?iteration="+iteration+"&intervale="+intervale+"&probabilite="+probabilite,
+    url: "/ProjetAnnee/json/estimateChargeGivenProbability_json.php", //?iteration="+iteration+"&intervale="+intervale+"&probabilite="+probabilite,
     dataType: 'json',
     data: parametres,
     success: function (data) {

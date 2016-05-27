@@ -2,14 +2,18 @@ $(document).ready(function() {
     $('#waitForDiagram').show();
     $.ajax({
         type: 'GET',
-        url: "/ProjetAnnee/tasklist_json.php",
+        url: "/ProjetAnnee/json/tasklist_json.php",
         dataType: 'json',
         success: function (data) {
             $('#waitForDiagram').hide();
             data.forEach(function (item) {
                 var task = item.nom;
+
                 var taskRect = rect.clone();
                     taskRect.attr('text/text', task);
+                if(task.length > 12) {
+                    taskRect.resize(task.length*10, 60);
+                }
                 graph.addCell(taskRect);
             });
 

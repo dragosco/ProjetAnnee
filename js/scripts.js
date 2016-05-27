@@ -1,13 +1,10 @@
-/**
- * Created by Dragos on 11/03/2016.
- */
 $(document).ready(function() {
-    //on LOAD, tout le monde est caché :
     $('.law').hide();
 });
 
 $(document).on('click', '.btn-group button', function (e) {
     $('.law').hide();
+    $('.btn-law.active').removeClass('active');
     $('#blk-'+$(this).val()).slideToggle();
     if($(this).val() === "1") {
         $('#lawName').val("uniforme");

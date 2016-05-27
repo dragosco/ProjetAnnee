@@ -1,6 +1,6 @@
 <?php
 // require("models/SimulationChargeGlobale.php");
-require("models/Project.php");
+require("../models/Project.php");
 
 $project = Project::getInstance();
 

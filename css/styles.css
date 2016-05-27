@@ -1,5 +1,5 @@
 body {
-	background-color: #444;
+	background-color: #0d0d0d;
 	background-image: url(../img/bg.jpg);
 	background-size: cover;
 	-webkit-background-size: cover;
@@ -9,9 +9,119 @@ body {
 	padding-top: 50px;
 	color: #fff;
 }
+.link-tools .tool-remove { display: none }
+section{
+	position: relative;
+	overflow: scroll;
+}
+#waitForDiagram {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-family: 'Lato';
+	font-size: 20px;
+}
+#waitForGraph {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-family: 'Lato';
+	color: #30a5ff;
+	font-size: 30px;
+	height: 100px;
+}
+@keyframes blink {
+	0% {opacity: .2;}
+	20% {opacity: 1;}
+	100% {opacity: .2;}
+}
 
-.modal-dialog{
-	background-color: #0d0d0d;
+.saving span {
+	animation-name: blink;
+	animation-duration: 1.4s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: both;
+}
+
+.saving span:nth-child(2) {
+	animation-delay: .2s;
+}
+
+.saving span:nth-child(3) {
+	animation-delay: .4s;
+}
+.modal-title {
+	color: #101010;
+}
+.modal-dialog {
+	margin-top: 5%;
+}
+.modal-content{
+	background-color: aliceblue;
+	border-radius: 0 !important;
+	color: #101010;
+}
+.modal-dialog input {
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: 0;
+	color: #000 !important;
+}
+.modal-dialog input:focus{
+	background: #fff;
+	border: 1px solid lightgrey;
+}
+.modal-dialog select.form-control {
+	background: rgba(0, 0, 0, 0.2);
+	color: #000;
+	border-radius: 0;
+}
+.modal-dialog select.form-control:focus {
+	background: #fff;
+	border: 1px solid lightgrey;
+}
+.modal-dialog button.btn-default {
+	background-color: #30a5ff;
+	border-radius: 0;
+	height: 70px;
+}
+#btnLawUnif {
+	background: url("../img/lois/uniforme.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+#btnLawNorm {
+	background: url("../img/lois/normale.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+#btnLawTriang {
+	background: url("../img/lois/triangulaire.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+#btnLawBeta {
+	background: url("../img/lois/beta.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+#btnLawNo {
+	background: url("../img/lois/no.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+.distribution-name {
+	color: #30a5ff;
+	font-size: 18px;
+}
+.modal-dialog .btn.btn-default.active {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+button.btn-default {
+	border-bottom: 0;
+	border-radius: 0;
 }
 /*This is the default .row style, stripped of margins*/
 .row {
@@ -1147,10 +1257,45 @@ tr.blue {background-color: #5bc0de;}
 tr.orange {background-color: #ffb53e;}
 tr.red {background-color: #f9243f;}
 
-tr:hover {
+tbody > tr:hover {
 	color: #444;
 }
 
 .list-group-item {
 	background-color: rgba(255, 255, 255, .2);
+}
+
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+::-webkit-scrollbar-button {
+	width: 0px;
+	height: 0px;
+}
+::-webkit-scrollbar-thumb {
+	background: #444444;
+	border: 0px none #ffffff;
+	border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #fff;
+
+}
+::-webkit-scrollbar-thumb:active {
+	background: #000000;
+}
+::-webkit-scrollbar-track {
+	background: #222222;
+	border: 0px none #ffffff;
+	border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+	background: #fff;
+}
+::-webkit-scrollbar-track:active {
+	background: #333333;
+}
+::-webkit-scrollbar-corner {
+	background: transparent;
 }

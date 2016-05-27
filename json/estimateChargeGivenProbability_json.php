@@ -1,6 +1,6 @@
 <?php
-//require("models/SimulationChargeGlobale.php");
-require("models/Project.php");
+// require("models/SimulationChargeGlobale.php");
+require("../models/Project.php");
 
 $project = Project::getInstance();
 
@@ -10,14 +10,10 @@ $intervalle = $_POST['intervalle'];
 $probabilite = $_POST['probabilite'];
 $charge = $_POST['charge'];
 
-$res = $project->executeSimulation($typeSimulateur, $iteration, $intervalle, $probabilite, $charge);
-
-$xAxis = $res->xAxis;
-$yAxis = $res->yAxis;
+$charge = $project->estimateCharge($typeSimulateur, $iteration, $intervalle, $probabilite, $charge);
 
 $data = [];
-$data['xAxis'] = $xAxis;
-$data['yAxis'] = $yAxis;
+$data['charge'] = $charge;
 
 header('Content-Type: application/json');
 echo json_encode($data);

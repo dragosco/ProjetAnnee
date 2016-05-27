@@ -13,6 +13,10 @@ $project = Project::getInstance();
 
 <html>
 	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Gestion de projet</title>
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 		<script src="https://code.highcharts.com/highcharts.js"></script>
 		<script src="https://code.highcharts.com/highcharts-3d.js"></script>
@@ -23,30 +27,12 @@ $project = Project::getInstance();
 
 		<link href="css/themecharts.css" rel="stylesheet">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/datepicker3.css" rel="stylesheet">
 		<link href="css/styles.css" rel="stylesheet">
-		<link href="css/joint.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Gestion de projet</title>
-
-
-		<!--[if lt IE 9]>
-		<link href="css/rgba-fallback.css" rel="stylesheet">
-		<script src="js/html5shiv.js"></script>
-		<script src="js/respond.min.js"></script>
-		<![endif]-->
-
 	</head>
 
 	<body>
-	<!--navbar-->
-		<?php
-			require 'navbar.php';
-		?>
-		<!--/navbar-->
+		<?php require 'navbar.php'; ?>
 
 		<div class="row main">
 		  <div class="row">
@@ -60,16 +46,9 @@ $project = Project::getInstance();
 		      <div class="panel panel-default">
 		        <div class="panel-heading"><span class="glyphicon glyphicon-tasks"></span> Monte Carlo</div>
 		        <div class="panel-body">
-							<?php
-								require 'chargeGlobale.php';
-							?>
-							<!-- <br> -->
-							<?php
-								require 'coutGlobal.php';
-							?>
-							<?php
-								require 'margeFinanciere.php';
-							?>
+							<?php require 'chargeGlobale.php'; ?>
+							<?php require 'coutGlobal.php'; ?>
+							<?php require 'margeFinanciere.php'; ?>
 					 	</div>
 		      </div>
 		    </div>

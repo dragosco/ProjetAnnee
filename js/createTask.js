@@ -24,7 +24,7 @@ var paper = new joint.dia.Paper({
  */
 var bounds = new joint.shapes.basic.Rect({
         size: {width: paper.options.width, height: paper.options.height},
-        attrs: {rect: {style: {'pointer-events': 'none'}, 'stroke-width': 0, fill: '#000', 'fill-opacity': 0.5 }}
+        attrs: {rect: {style: {'pointer-events': 'none'}, 'stroke-width': 0, fill: '#fff', 'fill-opacity': 0.1 }}
     });
 graph.addCell(bounds);
 graph.on('change:position', function(cell) {
@@ -88,7 +88,7 @@ var lien = new joint.dia.Link({ attrs: fleche, smooth: true});
 var rect = new joint.shapes.basic.Rect({
     size: { width: 100, height: 60 },
     attrs: {
-        rect: { fill: '#3498DB', 'fill-opacity': 0.5, rx: 5, ry: 5, stroke: 0 },
+        rect: { fill: '#3498DB', 'fill-opacity': 0.7, rx: 5, ry: 5, stroke: 0 },
         text: {
             text: 'my label', fill: '#000', 'fill-opacity':0.7,
             'font-size': 18, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
@@ -272,6 +272,41 @@ function calculateLongestPath(element) {
     return max;
 }
 
+$(document).ready(function() {
+    $('#enlargePaperWidthButton').click(function() {
+        paper.setDimensions(paper.options.width + 100, paper.options.height);
+        bounds.resize(paper.options.width + 100, paper.options.height);
+        start.position(10, bounds.get('size').height/2-110);
+        end.position(bounds.get('size').width-200, bounds.get('size').height/2-110);
+        reorganizeGraphPositions();
+    });
+
+    $('#enlargePaperHeightButton').click(function() {
+        paper.setDimensions(paper.options.width, paper.options.height + 100);
+        bounds.resize(paper.options.width, paper.options.height + 100);
+        start.position(10, bounds.get('size').height/2-110);
+        end.position(bounds.get('size').width-200, bounds.get('size').height/2-110);
+        reorganizeGraphPositions();
+    });
+
+    $('#reorganizeGraphButton').click(function() {
+        reorganizeGraphPositions();
+    });
+
+    $('#zoominButton').click(function() {
+        paper.scale(2,2);
+    });
+
+    $('#reloadButton').click(function() {
+        location.reload();
+    });
+
+    $('#reloadButton').click(function() {
+        location.reload();
+    });
+
+
+});
 /*function getLevel(elements, level) {
  var result  = elements.filter(
  function(o) {
@@ -287,3 +322,5 @@ function calculateLongestPath(element) {
  return level === arrLevel.level;
  });
  };*/
+
+$('')

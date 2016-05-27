@@ -50,11 +50,11 @@ require 'navbar.php';
                     <table class="table" id="tableEdition" style="color: #5e5e5e;">
                         <thead>
                         <tr>
-                            <th>Nom</th>
-                            <th>Précédent 1</th>
-                            <th>Précédent 2</th>
-                            <th>Suivant 1</th>
-                            <th>Suivant 2</th>
+                            <th>Name</th>
+                            <th>1st predecessor</th>
+                            <th>2nd predecessor</th>
+                            <th>1st successor</th>
+                            <th>2nd successor</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -101,7 +101,7 @@ require 'navbar.php';
                                 <div class="previous"><b>Previous: </b><span class='prev'><?php echo $task->suivant1 ?></span></div>
                             </td>
                             <td>
-                                <select class="suivs2" id="suiv1OfTask<?php echo $task->id;?>">
+                                <select class="suivs2" id="suiv2OfTask<?php echo $task->id;?>">
                                     <option <?php if($task->suivant2 === '') { ?> selected="selected" <?php } ?> value="">none</option>
                                     <?php foreach ($project->listeTaches as $t) {
                                         if ($task->id !== $t->id) { ?>
@@ -118,7 +118,7 @@ require 'navbar.php';
                         </tbody>
                     </table>
                     <form id="validateTableForm" method="POST" action="update.php">
-                        <button class="btn pull-right" type="submit">Validate changes</button>
+                        <button class="btn btn-success pull-right" type="submit">Validate changes</button>
                     </form>
 
                 </div>
