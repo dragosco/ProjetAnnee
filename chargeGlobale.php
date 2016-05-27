@@ -93,6 +93,8 @@
       <output class="form-control" id="chargeGivenProbability_Charge" type="text" name="chargeGivenProbability" />
     </div>
   </div>
-  <br> <div class="row" id="containerChargeGlobale" style="position: relative;"><p id="waitForGraph" class="saving">Loading Graph<span>.</span><span>.</span><span>.</span></p></div>
-   <!-- style="height: 400px; width: 100%;" -->
 </div>
+</div>
+  <div id="containerChargeGlobale"></div>
+   <!-- style="height: 400px; width: 100%;" -->
+   </div>

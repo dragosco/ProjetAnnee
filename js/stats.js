@@ -1,20 +1,25 @@
 $(document).ready(function() {
+  $('#contenuChargeGlobale').hide();
+  $('#contenuCoutGlobal').hide();
+  $('#contenu_Marge').hide();
+
   $('#titreChargeGlobale').on('click', function(event) {
-    $('#contenuChargeGlobale').toggle(); //'show'
+    $('#contenuChargeGlobale').slideToggle(); //'show'
+    // $('#contenuChargeGlobale').toggle();
     // $('#contenuCoutGlobal').toggle();
   });
   $('#titreCoutGlobal').on('click', function(event) {
-    $('#contenuCoutGlobal').toggle(); //'show'
+    $('#contenuCoutGlobal').slideToggle(); //'show'
     // $('#contenuChargeGlobale').toggle();
   });
   $('#titre_Marge').on('click', function(event) {
-    $('#contenu_Marge').toggle(); //'show'
+    $('#contenu_Marge').slideToggle(); //'show'
     // $('#contenuChargeGlobale').toggle();
   });
   $('#waitForGraph').hide();
 });
 
-$('')
+// $('')
 
 // jQuery(document).ready(function(){
 //     jQuery('#hideshow').live('click', function(event) {
@@ -35,7 +40,7 @@ function calculate(typeSimulateur, iteration, intervalle, probabilite, charge, d
     nomChart = 'Simulation de marge financière';
   }
   $('#waitForGraph').show();
-  
+
   $.ajax({
       type: 'POST',
       url: "/ProjetAnnee/json/calculStat_json.php", //?iteration="+iteration+"&intervale="+intervale,
